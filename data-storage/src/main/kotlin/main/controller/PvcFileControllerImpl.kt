@@ -3,9 +3,11 @@ package main.controller
 import main.dto.PvcFileDto
 import main.dto.PvcFileInfoDto
 import main.service.PvcFileService
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -16,17 +18,23 @@ class PvcFileControllerImpl(
 ) : PvcFileController {
 
     @GetMapping(path = ["/{id}"])
-    override fun downloadPvcFile(@PathVariable("id") id: String): PvcFileDto {
-        return pvcFileService.loadPvcFile(id)
+    override fun downloadPvcFile(@PathVariable("id") id: String): ResponseEntity<PvcFileDto> {
+        return ResponseEntity
+            .ok()
+            .body(pvcFileService.loadPvcFile(id))
     }
 
     @GetMapping
-    override fun downloadPvcFileList(): List<PvcFileInfoDto> {
-        return pvcFileService.getPvcFileList()
+    override fun downloadPvcFileList(): ResponseEntity<List<PvcFileInfoDto>> {
+        return ResponseEntity
+            .ok()
+            .body(pvcFileService.getPvcFileList())
     }
 
     @PostMapping
-    override fun uploadPvcFile(pvcFile: PvcFileDto): PvcFileInfoDto {
-        return pvcFileService.savePvcFile(pvcFile)
+    override fun uploadPvcFile(@RequestBody pvcFile: PvcFileDto): ResponseEntity<PvcFileInfoDto> {
+        return ResponseEntity
+            .ok()
+            .body(pvcFileService.savePvcFile(pvcFile))
     }
 }
