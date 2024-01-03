@@ -32,7 +32,10 @@ class PvcFileServiceImpl(
     override fun savePvcFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
         val fileByteArray: ByteArray = pvcFileDto.file
         val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserTemplate.id ?: throw NullPointerException()))
-        File(filePathBuilder(pvcFile.filename)).writeBytes(fileByteArray)
+        if (pvcFile.id == null) {
+            throw FileNotFoundException()
+        }
+        File(filePathBuilder(pvcFile.id ?: throw NullPointerException())).writeBytes(fileByteArray)
         return pvcFile.toPvcFileInfoDto()
     }
 
@@ -41,7 +44,7 @@ class PvcFileServiceImpl(
             .orElseThrow {
                 FileNotFoundException()
             }
-        val fileByteArray = File(filePathBuilder(pvcFile.filename)).readBytes()
+        val fileByteArray = File(filePathBuilder(pvcFile.id ?: throw NullPointerException())).readBytes()
         return pvcFile.toPvcFileDto(fileByteArray)
     }
 
