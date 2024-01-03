@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### MongoDB ###
+/data-storage/src/main/resources/mongodb-application.yml

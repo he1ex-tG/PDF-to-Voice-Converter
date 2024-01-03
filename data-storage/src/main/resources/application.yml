@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    include:
+      - mongodb
+  data:
+    mongodb:
+      database: PDR_to_Voice_Converter
+server:
+  port:
+    7000
+pvc:
+  file:
+    local-storage-path: E:\PDF_to_Voice_Converter_storage
+    local-storage-size: 2
