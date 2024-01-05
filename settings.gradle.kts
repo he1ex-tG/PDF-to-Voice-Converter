@@ -3,3 +3,4 @@ plugins {
 }
 rootProject.name = "pdf-to-voice-converter"
 include("data-storage")
+include("converter-api")
