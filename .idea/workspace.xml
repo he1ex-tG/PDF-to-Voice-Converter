@@ -4,26 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be036274-5478-4589-a0bb-6b6f72a724ec" name="Changes" comment="Names of saved files are changed to files IDs">
-      <change afterPath="$PROJECT_DIR$/converter-api/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/ConverterApiMain.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/controller/ConverterController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/controller/ConverterControllerImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/exception/CustomExceptionHandler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/exception/CustomResponseEntityException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/ConverterService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/ConverterServiceImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/pdf/PdfReaderService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/pdf/PdfReaderServiceImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/tts/MP3StreamAudioPlayer.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/tts/MP3StreamWrapper.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/tts/TextToSpeechService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/kotlin/main/service/tts/TextToSpeechServiceImpl.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/converter-api/src/main/resources/application.yml" afterDir="false" />
+    <list default="true" id="50d5ed28-a78f-4b65-b892-2928d731cc61" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/shared-objects/src/main/kotlin/com/shared/objects/dto/PvcFileDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared-objects/src/main/kotlin/com/shared/objects/dto/PvcFileInfoDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/UserInterfaceMain.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/model/PvcIncomeData.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/service/PvcMainPageService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/service/PvcMainPageServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/validation/MultipartFileConstraint.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/validation/MultipartFileValidator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/web/PvcMainPageController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-interface/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-storage/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/DataStorageMain.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/DataStorageMain.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/configuration/PvcFileServiceConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/configuration/PvcFileServiceConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/controller/PvcFileController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/controller/PvcFileController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/controller/PvcFileControllerImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/controller/PvcFileControllerImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/dto/PvcFileDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/dto/PvcFileDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/dto/PvcFileInfoDto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/user-interface/src/main/kotlin/main/dto/PvcFileInfoDto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/entity/PvcFile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/entity/PvcFile.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/entity/PvcUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/entity/PvcUser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/repository/PvcFileRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/repository/PvcFileRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/repository/PvcUserRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/repository/PvcUserRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/service/PvcFileService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/service/PvcFileService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-storage/src/main/kotlin/main/service/PvcFileServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/data-storage/src/main/kotlin/com/storage/data/main/service/PvcFileServiceImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-interface/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/user-interface/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,65 +55,45 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
+        <option value="Kotlin Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="c7c5c725fef3d43202d7e620de1d24b1dd7ad943" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
-}</component>
-  <component name="ProjectId" id="2aOjJsSYDdrKAZZdTv1nXSpdFwp" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2aoftFXEfWwM0R9sqgqwtRH95Au" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build pdf-to-voice-converter.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.ConverterApiMainKt.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.DataStorageMainKt.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-17&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/gosuh/IdeaProjects/pdf-to-voice-converter/data-storage/src/main/resources&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build pdf-to-voice-converter.executor": "Run",
+    "Kotlin.DataStorageMainKt.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "corretto-17",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/gosuh/IdeaProjects/pdf-to-voice-converter/shared-objects/src/main/kotlin/ru/shared/objects/dto",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\gosuh\IdeaProjects\pdf-to-voice-converter\data-storage\src\main\resources" />
-    </key>
-    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="main" />
-    </key>
-    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
-      <recent name="main.repository" />
+      <recent name="C:\Users\gosuh\IdeaProjects\pdf-to-voice-converter\shared-objects\src\main\kotlin\ru\shared\objects\dto" />
     </key>
   </component>
-  <component name="RunManager" selected="Kotlin.ConverterApiMainKt">
-    <configuration name="ConverterApiMainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main.ConverterApiMainKt" />
-      <module name="pdf-to-voice-converter.converter-api.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="DataStorageMainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main.DataStorageMainKt" />
+      <option name="MAIN_CLASS_NAME" value="com.storage.data.main.DataStorageMainKt" />
       <module name="pdf-to-voice-converter.data-storage.main" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -104,10 +101,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.ConverterApiMainKt" />
-        <item itemvalue="Kotlin.DataStorageMainKt" />
-        <item itemvalue="Kotlin.DataStorageMainKt" />
-        <item itemvalue="Kotlin.DataStorageMainKt" />
         <item itemvalue="Kotlin.DataStorageMainKt" />
       </list>
     </recent_temporary>
@@ -122,117 +115,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="be036274-5478-4589-a0bb-6b6f72a724ec" name="Changes" comment="" />
-      <created>1704196450855</created>
+      <changelist id="50d5ed28-a78f-4b65-b892-2928d731cc61" name="Changes" comment="" />
+      <created>1704990064956</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1704196450855</updated>
+      <updated>1704990064956</updated>
     </task>
-    <task id="LOCAL-00001" summary="Init">
-      <option name="closed" value="true" />
-      <created>1704200956225</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1704200956225</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Base configuration">
-      <option name="closed" value="true" />
-      <created>1704276363978</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276363979</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Add entities">
-      <option name="closed" value="true" />
-      <created>1704276408029</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276408029</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Add DTOs">
-      <option name="closed" value="true" />
-      <created>1704276429674</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276429674</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Main class init">
-      <option name="closed" value="true" />
-      <created>1704276444542</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276444542</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Add file controller">
-      <option name="closed" value="true" />
-      <created>1704276479062</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276479062</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Add file service">
-      <option name="closed" value="true" />
-      <created>1704276510822</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276510822</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Add repositories">
-      <option name="closed" value="true" />
-      <created>1704276837771</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1704276837771</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Controllers response type is changed to ResponseEntity">
-      <option name="closed" value="true" />
-      <created>1704298217389</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1704298217390</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Names of saved files are changed to files IDs">
-      <option name="closed" value="true" />
-      <created>1704298302087</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1704298302087</updated>
-    </task>
-    <option name="localTasksCounter" value="11" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Init" />
-    <MESSAGE value="Base configuration" />
-    <MESSAGE value="Add entities" />
-    <MESSAGE value="Add DTOs" />
-    <MESSAGE value="Main class init" />
-    <MESSAGE value="Add file controller" />
-    <MESSAGE value="Add file service" />
-    <MESSAGE value="Add repositories" />
-    <MESSAGE value="Controllers response type is changed to ResponseEntity" />
-    <MESSAGE value="Names of saved files are changed to files IDs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Names of saved files are changed to files IDs" />
   </component>
 </project>

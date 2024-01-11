@@ -1,6 +1,6 @@
-package main.repository
+package com.storage.data.main.repository
 
-import main.entity.PvcFile
+import com.storage.data.main.entity.PvcFile
 import org.springframework.data.repository.CrudRepository
 import java.util.Optional
 

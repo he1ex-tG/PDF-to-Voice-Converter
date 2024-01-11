@@ -1,8 +1,8 @@
-package main.controller
+package com.storage.data.main.controller
 
-import main.dto.PvcFileDto
-import main.dto.PvcFileInfoDto
 import org.springframework.http.ResponseEntity
+import com.shared.objects.dto.PvcFileDto
+import com.shared.objects.dto.PvcFileInfoDto
 
 interface PvcFileController {
 

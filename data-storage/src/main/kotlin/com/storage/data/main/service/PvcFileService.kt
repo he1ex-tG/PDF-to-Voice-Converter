@@ -1,7 +1,8 @@
-package main.service
+package com.storage.data.main.service
 
-import main.dto.PvcFileDto
-import main.dto.PvcFileInfoDto
+import com.shared.objects.dto.PvcFileDto
+import com.shared.objects.dto.PvcFileInfoDto
+
 
 interface PvcFileService {
 

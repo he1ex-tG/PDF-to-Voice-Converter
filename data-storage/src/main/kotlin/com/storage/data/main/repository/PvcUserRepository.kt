@@ -1,6 +1,6 @@
-package main.repository
+package com.storage.data.main.repository
 
-import main.entity.PvcUser
+import com.storage.data.main.entity.PvcUser
 import org.springframework.data.repository.CrudRepository
 
 interface PvcUserRepository : CrudRepository<PvcUser, String>

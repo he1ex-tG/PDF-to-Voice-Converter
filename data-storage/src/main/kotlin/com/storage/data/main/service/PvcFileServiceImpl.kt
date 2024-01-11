@@ -1,11 +1,11 @@
-package main.service
+package com.storage.data.main.service
 
-import main.configuration.PvcFileServiceConfig
-import main.dto.PvcFileDto
-import main.dto.PvcFileInfoDto
-import main.entity.PvcFile
-import main.entity.PvcUser
-import main.repository.PvcFileRepository
+import com.shared.objects.dto.PvcFileDto
+import com.shared.objects.dto.PvcFileInfoDto
+import com.storage.data.main.configuration.PvcFileServiceConfig
+import com.storage.data.main.entity.PvcFile
+import com.storage.data.main.entity.PvcUser
+import com.storage.data.main.repository.PvcFileRepository
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.io.File
