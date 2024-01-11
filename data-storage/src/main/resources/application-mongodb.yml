@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      host: 185.225.68.232
+      port: 29003
+      username: pvcMainUser
+      password: pvcMainUserPwd
