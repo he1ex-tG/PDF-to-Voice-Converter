@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Converter: PDF to MP3 - UI</title>
+    </head>
+    <body>
+        <h1>Converter: PDF to MP3 - UI for USER: <span th:text="${username}">No user</span></h1>
+        <form method="post" enctype="multipart/form-data" th:object="${pvcIncomeData}">
+            <div>
+                <input type="file" th:field="*{file}" th:value="${file}">
+                <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}">File error</span>
+            </div>
+            <div>
+                <button>Submit</button>
+            </div>
+        </form>
+        <div th:each="fileList : ${fileList}">
+            <a th:href="${fileList.id}" th:text="${fileList.filename}"></a>
+        </div>
+    </body>
+</html>
