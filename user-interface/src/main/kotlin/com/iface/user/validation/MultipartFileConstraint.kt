@@ -1,4 +1,4 @@
-package main.validation
+package com.iface.user.validation
 
 import jakarta.validation.Constraint
 import kotlin.reflect.KClass

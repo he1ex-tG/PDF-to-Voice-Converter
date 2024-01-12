@@ -1,4 +1,4 @@
-package com.shared.objects.dto
+package com.objects.shared.dto
 
 class PvcFileDto(
     val filename: String,

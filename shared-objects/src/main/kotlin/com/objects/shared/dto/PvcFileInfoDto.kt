@@ -1,4 +1,4 @@
-package main.dto
+package com.objects.shared.dto
 
 class PvcFileInfoDto(
     val id: String,
