@@ -1,7 +1,7 @@
 package com.storage.data.entity
 
-import com.shared.objects.dto.PvcFileDto
-import com.shared.objects.dto.PvcFileInfoDto
+import com.objects.shared.dto.PvcFileDto
+import com.objects.shared.dto.PvcFileInfoDto
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime

@@ -1,7 +1,7 @@
 package com.storage.data.service
 
-import com.shared.objects.dto.PvcFileDto
-import com.shared.objects.dto.PvcFileInfoDto
+import com.objects.shared.dto.PvcFileDto
+import com.objects.shared.dto.PvcFileInfoDto
 import com.storage.data.configuration.PvcFileServiceConfig
 import com.storage.data.entity.PvcFile
 import com.storage.data.entity.PvcUser

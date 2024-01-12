@@ -1,7 +1,7 @@
 package com.storage.data.controller
 
-import com.shared.objects.dto.PvcFileDto
-import com.shared.objects.dto.PvcFileInfoDto
+import com.objects.shared.dto.PvcFileDto
+import com.objects.shared.dto.PvcFileInfoDto
 import com.storage.data.service.PvcFileService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
