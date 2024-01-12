@@ -18,6 +18,8 @@ repositories {
 extra["springCloudVersion"] = "2023.0.0"
 
 dependencies {
+    implementation(project(":shared-objects"))
+
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
