@@ -29,7 +29,7 @@ class PvcMainPageController(
 
     @ModelAttribute(name = "fileList")
     fun listUserFiles(): List<PvcFileInfoDto> {
-        return pvcMainPageService.getUserFileList()
+        return pvcMainPageService.getFilesList()
     }
 
     @GetMapping
@@ -39,7 +39,7 @@ class PvcMainPageController(
 
     @GetMapping(path = ["/{id}"])
     fun downloadFile(@PathVariable id: String): ResponseEntity<Resource> {
-        val pvcFileDto = pvcMainPageService.downloadFile(id)
+        val pvcFileDto = pvcMainPageService.getFile(id)
         val resource = object : ByteArrayResource(pvcFileDto.file) {
             override fun getFilename(): String {
                 return pvcFileDto.filename
@@ -65,7 +65,7 @@ class PvcMainPageController(
         if (errors.hasErrors()) {
             return "index"
         }
-        pvcMainPageService.uploadFile {
+        pvcMainPageService.addFile {
             val multipartFile = pvcIncomeData.file!!
             PvcFileDto(
                 multipartFile.originalFilename ?: "filename",
