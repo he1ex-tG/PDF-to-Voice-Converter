@@ -6,7 +6,7 @@ import com.objects.shared.dto.PvcFileInfoDto
 
 interface PvcMainPageService {
 
-    fun getUserFileList(): List<PvcFileInfoDto>
-    fun uploadFile(pvcIncomeData: () -> PvcFileDto)
-    fun downloadFile(id: String): PvcFileDto
+    fun getFilesList(): List<PvcFileInfoDto>
+    fun addFile(pvcIncomeData: () -> PvcFileDto)
+    fun getFile(id: String): PvcFileDto
 }

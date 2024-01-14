@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class PvcMainPageServiceImpl : PvcMainPageService {
-    override fun getUserFileList(): List<PvcFileInfoDto> {
+    override fun getFilesList(): List<PvcFileInfoDto> {
         return listOf()
     }
 
-    override fun uploadFile(pvcIncomeData: () -> PvcFileDto) {
+    override fun addFile(pvcIncomeData: () -> PvcFileDto) {
 
     }
 
-    override fun downloadFile(id: String): PvcFileDto {
+    override fun getFile(id: String): PvcFileDto {
         return PvcFileDto("test", byteArrayOf())
     }
 }
