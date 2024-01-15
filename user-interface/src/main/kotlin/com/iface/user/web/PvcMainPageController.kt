@@ -19,7 +19,7 @@ import org.springframework.web.bind.support.SessionStatus
 
 @Controller
 class PvcMainPageController(
-    val pvcMainPageService: PvcMainPageService
+    private val pvcMainPageService: PvcMainPageService
 ) {
 
     @ModelAttribute(name = "pvcIncomeData")
@@ -40,6 +40,9 @@ class PvcMainPageController(
     @GetMapping(path = ["/{id}"])
     fun downloadFile(@PathVariable id: String): ResponseEntity<Resource> {
         val pvcFileDto = pvcMainPageService.getFile(id)
+            ?: return ResponseEntity
+                .notFound()
+                .build()
         val resource = object : ByteArrayResource(pvcFileDto.file) {
             override fun getFilename(): String {
                 return pvcFileDto.filename
@@ -65,13 +68,15 @@ class PvcMainPageController(
         if (errors.hasErrors()) {
             return "index"
         }
-        pvcMainPageService.addFile {
-            val multipartFile = pvcIncomeData.file!!
-            PvcFileDto(
-                multipartFile.originalFilename ?: "filename",
-                multipartFile.bytes
-            )
-        }
+        val multipartFile = pvcIncomeData.file!!
+        /*
+        *   TODO Проверка возвращаемого значения:
+        *       1. PvcFileInfoDto - загрузка прошла удачно.
+        *       2. null - файл не загружен.
+        * */
+        val uploadResult = pvcMainPageService.setFile(
+            PvcFileDto(multipartFile.originalFilename ?: "filename", multipartFile.bytes)
+        )
         sessionStatus.setComplete()
         return "redirect:/"
     }
