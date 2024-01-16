@@ -4,6 +4,7 @@ import com.itextpdf.text.exceptions.BadPasswordException
 import com.itextpdf.text.exceptions.IllegalPdfSyntaxException
 import com.itextpdf.text.exceptions.InvalidPdfException
 import com.itextpdf.text.exceptions.UnsupportedPdfException
+import com.objects.shared.exception.ApiException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -16,8 +17,8 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * ResponseEntity builder
      */
-    private fun buildResponseEntity(ex: CustomResponseEntityException): ResponseEntity<CustomResponseEntityException> {
-        return ResponseEntity(ex, ex.status)
+    private fun buildResponseEntity(apiException: ApiException): ResponseEntity<ApiException> {
+        return ResponseEntity(apiException, HttpStatus.valueOf(apiException.httpStatus))
     }
 
     /**
@@ -32,26 +33,26 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      * ITextPDF module exception handlers
      */
     @ExceptionHandler(BadPasswordException::class)
-    fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<CustomResponseEntityException> {
-        val e = CustomResponseEntityException(HttpStatus.BAD_REQUEST, ex.message ?: "PDF file exception", ex)
+    fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<ApiException> {
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(IllegalPdfSyntaxException::class)
-    fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<CustomResponseEntityException> {
-        val e = CustomResponseEntityException(HttpStatus.BAD_REQUEST, ex.message ?: "PDF file exception", ex)
+    fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<ApiException> {
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(InvalidPdfException::class)
-    fun handlerInvalidPdfException(ex: InvalidPdfException): ResponseEntity<CustomResponseEntityException> {
-        val e = CustomResponseEntityException(HttpStatus.BAD_REQUEST, ex.message ?: "PDF file exception", ex)
+    fun handlerInvalidPdfException(ex: InvalidPdfException): ResponseEntity<ApiException> {
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(UnsupportedPdfException::class)
-    fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<CustomResponseEntityException> {
-        val e = CustomResponseEntityException(HttpStatus.BAD_REQUEST, ex.message ?: "PDF file exception", ex)
+    fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<ApiException> {
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
         return buildResponseEntity(e)
     }
 }
