@@ -24,6 +24,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * Default exception handlers
      */
+    @ExceptionHandler(Throwable::class)
+    fun handlerThrowable(ex: BadPasswordException): ResponseEntity<ApiException> {
+        val e = ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.message ?: "No message", ex)
+        return buildResponseEntity(e)
+    }
 
     /**
      * Custom exception handlers
@@ -34,25 +39,25 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      */
     @ExceptionHandler(BadPasswordException::class)
     fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(IllegalPdfSyntaxException::class)
     fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(InvalidPdfException::class)
     fun handlerInvalidPdfException(ex: InvalidPdfException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(UnsupportedPdfException::class)
     fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "PDF file exception", ex)
+        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
         return buildResponseEntity(e)
     }
 }
