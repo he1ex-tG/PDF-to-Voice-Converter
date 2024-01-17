@@ -7,6 +7,9 @@ import com.objects.shared.dto.PvcFileInfoDto
 interface PvcFileService {
 
     fun savePvcFile(pvcFileDto: PvcFileDto): PvcFileInfoDto
+
     fun loadPvcFile(pvcFileId: String): PvcFileDto
+
     fun getPvcFileList(): List<PvcFileInfoDto>
+
 }
