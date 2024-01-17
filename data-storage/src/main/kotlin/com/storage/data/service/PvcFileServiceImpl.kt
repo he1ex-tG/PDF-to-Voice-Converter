@@ -43,8 +43,9 @@ class PvcFileServiceImpl(
     }
 
     override fun loadPvcFile(pvcFileId: String): PvcFileDto {
+        val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserTemplate.id!!)
         try {
-            val pvcFile = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserTemplate.id!!).get()
+            val pvcFile = pvcFileOptional.get()
             val fileByteArray = FileInputStream(filePathBuilder(pvcFile.id!!)).readBytes()
             return pvcFile.toPvcFileDto(fileByteArray)
         } catch (_: Throwable) {
