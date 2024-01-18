@@ -25,7 +25,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      * Default exception handlers
      */
     @ExceptionHandler(Throwable::class)
-    fun handlerThrowable(ex: BadPasswordException): ResponseEntity<ApiException> {
+    fun handlerThrowable(ex: Throwable): ResponseEntity<ApiException> {
         val e = ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.message ?: "No message", ex)
         return buildResponseEntity(e)
     }
