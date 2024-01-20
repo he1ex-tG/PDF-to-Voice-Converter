@@ -7,6 +7,6 @@ import org.springframework.http.ResponseEntity
 interface IncomePdfController {
 
     fun getFilesList(): ResponseEntity<List<PvcFileInfoDto>>
-    fun addFile(pvcFileDto: PvcFileDto)
+    fun addFile(pvcFileDto: PvcFileDto): ResponseEntity<PvcFileInfoDto>
     fun getFile(id: String): ResponseEntity<PvcFileDto>
 }
