@@ -16,7 +16,7 @@
             </div>
         </form>
         <div th:each="fileList : ${fileList}">
-            <a th:href="${fileList.id}" th:text="${fileList.filename}"></a>
+            <a th:href="@{'/download/' + ${fileList.id}}" th:text="${fileList.filename}"></a>
         </div>
     </body>
 </html>
