@@ -12,11 +12,11 @@ import javax.sound.sampled.AudioInputStream
 import javax.sound.sampled.AudioSystem
 
 class MP3StreamAudioPlayer(
-    val mp3StreamWrapper: MP3StreamWrapper
+    private val mp3StreamWrapper: MP3StreamWrapper
 ) : AudioPlayer {
 
     private val defaultFormat: AudioFormat = AudioFormat(
-        AudioFormat.Encoding.PCM_SIGNED,
+        AudioFormat.Encoding.PCM_FLOAT,
         16000.0F,
         16,
         1,
