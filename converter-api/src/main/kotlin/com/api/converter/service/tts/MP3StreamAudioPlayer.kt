@@ -103,7 +103,7 @@ class MP3StreamAudioPlayer(
         val waveOutputStream = ByteArrayOutputStream()
         AudioSystem.write(audioInputStream, outputType, waveOutputStream)
         val waveAudioInputStream = AudioSystem.getAudioInputStream(waveOutputStream.toByteArray().inputStream())
-        mp3StreamWrapper.inputBytes = encodeToMp3(waveAudioInputStream)
+        mp3StreamWrapper.set(encodeToMp3(waveAudioInputStream))
         return true
     }
 

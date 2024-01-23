@@ -10,9 +10,6 @@ class TextToSpeechServiceImpl : TextToSpeechService {
     private lateinit var voice: Voice
 
     private val mp3StreamWrapper = MP3StreamWrapper()
-    private val inputBytes: ByteArray
-        get() = mp3StreamWrapper.inputBytes
-
     private val mp3StreamAudioPlayer = MP3StreamAudioPlayer(mp3StreamWrapper)
 
     init {
@@ -25,6 +22,7 @@ class TextToSpeechServiceImpl : TextToSpeechService {
     override fun speech(text: String): ByteArray {
         voice.audioPlayer = mp3StreamAudioPlayer
         voice.speak(text)
+        val inputBytes = mp3StreamWrapper.getErase()
         return inputBytes
     }
 }
