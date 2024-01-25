@@ -26,7 +26,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      */
     @ExceptionHandler(Throwable::class)
     fun handlerThrowable(ex: Throwable): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            message = "Converter Api raised unknown exception",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 
@@ -35,7 +39,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      */
     @ExceptionHandler(TtsEmptyStringException::class)
     fun handlerTtsEmptyStringException(ex: TtsEmptyStringException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.NO_CONTENT.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api got incorrect input data",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 
@@ -44,25 +52,41 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      */
     @ExceptionHandler(BadPasswordException::class)
     fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api got incorrect input data",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(IllegalPdfSyntaxException::class)
     fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api got incorrect input data",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(InvalidPdfException::class)
     fun handlerInvalidPdfException(ex: InvalidPdfException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api got incorrect input data",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(UnsupportedPdfException::class)
     fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.BAD_REQUEST.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api got incorrect input data",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 }
