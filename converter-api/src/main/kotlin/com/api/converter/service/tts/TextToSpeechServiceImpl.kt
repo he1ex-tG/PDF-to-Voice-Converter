@@ -1,5 +1,6 @@
 package com.api.converter.service.tts
 
+import com.api.converter.exception.TtsEmptyStringException
 import com.sun.speech.freetts.Voice
 import com.sun.speech.freetts.VoiceManager
 import org.springframework.stereotype.Service
@@ -20,6 +21,9 @@ class TextToSpeechServiceImpl : TextToSpeechService {
     }
 
     override fun speech(text: String): ByteArray {
+        if (text.isBlank()) {
+            throw TtsEmptyStringException("Text is empty or consists solely of whitespace characters")
+        }
         voice.audioPlayer = mp3StreamAudioPlayer
         voice.speak(text)
         val inputBytes = mp3StreamWrapper.getErase()

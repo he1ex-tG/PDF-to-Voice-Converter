@@ -33,6 +33,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * Custom exception handlers
      */
+    @ExceptionHandler(TtsEmptyStringException::class)
+    fun handlerTtsEmptyStringException(ex: TtsEmptyStringException): ResponseEntity<ApiException> {
+        val e = ApiException(HttpStatus.NO_CONTENT.value(), ex.message ?: "No message", ex)
+        return buildResponseEntity(e)
+    }
 
     /**
      * ITextPDF module exception handlers
