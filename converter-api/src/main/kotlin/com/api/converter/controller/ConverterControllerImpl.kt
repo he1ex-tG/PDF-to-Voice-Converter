@@ -15,7 +15,7 @@ class ConverterControllerImpl(
 ) : ConverterController {
 
     @PostMapping(
-        consumes = [MediaType.APPLICATION_PDF_VALUE],
+        consumes = [MediaType.APPLICATION_OCTET_STREAM_VALUE],
         produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE]
     )
     override fun convert(@RequestBody data: ByteArray): ResponseEntity<ByteArray> {
