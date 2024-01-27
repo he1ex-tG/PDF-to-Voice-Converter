@@ -7,6 +7,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
