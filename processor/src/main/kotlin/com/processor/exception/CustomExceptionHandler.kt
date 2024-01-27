@@ -26,13 +26,21 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      */
     @ExceptionHandler(ConverterApiException::class)
     fun handlerConverterApiException(ex: ConverterApiException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            message = "Converter Api thrown an exception",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 
     @ExceptionHandler(DataStorageException::class)
     fun handlerDataStorageException(ex: DataStorageException): ResponseEntity<ApiException> {
-        val e = ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.message ?: "No message", ex)
+        val e = ApiException(
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            message = "Data Storage thrown an exception",
+            debugMessage = ex.message ?: "No debug message"
+        )
         return buildResponseEntity(e)
     }
 

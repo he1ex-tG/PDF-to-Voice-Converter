@@ -8,8 +8,13 @@ class ConverterApiClientConfiguration {
 
     @Bean
     fun customErrorDecoder(): ErrorDecoder {
-        return ErrorDecoder { _, _ ->
-            throw ConverterApiException("Converter Api module responded something else instead of OK")
+        return ErrorDecoder { _, response ->
+            val body = response.body()
+            if (body is Throwable) {
+                throw ConverterApiException(body.message ?: "")
+            }
+            throw ConverterApiException(null)
         }
     }
+
 }
