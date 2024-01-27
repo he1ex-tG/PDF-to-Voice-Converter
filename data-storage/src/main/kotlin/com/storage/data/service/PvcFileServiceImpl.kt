@@ -32,24 +32,21 @@ class PvcFileServiceImpl(
     }
 
     override fun savePvcFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
-        val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserTemplate.id!!))
         try {
+            val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserTemplate.id!!))
             val fileOutputStream = FileOutputStream(filePathBuilder(pvcFile.id!!))
             fileOutputStream.write(pvcFileDto.file)
             fileOutputStream.close()
+            return pvcFile.toPvcFileInfoDto()
         }
         catch (_: Throwable) {
-            if (pvcFile.id != null) {
-                pvcFileRepository.delete(pvcFile)
-            }
             throw SavePvcFileException("Save file to repository function thrown an exception, file not save")
         }
-        return pvcFile.toPvcFileInfoDto()
     }
 
     override fun loadPvcFile(pvcFileId: String): PvcFileDto {
-        val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserTemplate.id!!)
         try {
+            val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserTemplate.id!!)
             val pvcFile = pvcFileOptional.get()
             val fileInputStream = FileInputStream(filePathBuilder(pvcFile.id!!))
             val fileByteArray = fileInputStream.readBytes()
