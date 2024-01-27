@@ -18,7 +18,8 @@ class ProcessorServiceImpl(
 
     override fun convertAndStoreFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
         val convertedPdf = converterApiClient.convert(pvcFileDto.file)
-        return dataStorageClient.sendPvcFile(PvcFileDto(pvcFileDto.filename, convertedPdf))
+        val newFilename = (pvcFileDto.filename.substringBeforeLast('.')) + ".mp3"
+        return dataStorageClient.sendPvcFile(PvcFileDto(newFilename, convertedPdf))
     }
 
     override fun getFile(id: String): PvcFileDto {
