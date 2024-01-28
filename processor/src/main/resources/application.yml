@@ -1,2 +1,9 @@
 server:
   port: 7015
+spring:
+  application:
+    name: PROCESSOR
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7025/eureka
