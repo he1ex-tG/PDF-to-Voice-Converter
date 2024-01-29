@@ -37,12 +37,9 @@ class PvcMainPageController(
         return "index"
     }
 
-    @GetMapping(path = ["/{id}"])
+    @GetMapping("/download/{id}")
     fun downloadFile(@PathVariable id: String): ResponseEntity<Resource> {
         val pvcFileDto = pvcMainPageService.getFile(id)
-            ?: return ResponseEntity
-                .notFound()
-                .build()
         val resource = object : ByteArrayResource(pvcFileDto.file) {
             override fun getFilename(): String {
                 return pvcFileDto.filename
@@ -69,15 +66,11 @@ class PvcMainPageController(
             return "index"
         }
         val multipartFile = pvcIncomeData.file!!
-        /*
-        *   TODO Проверка возвращаемого значения:
-        *       1. PvcFileInfoDto - загрузка прошла удачно.
-        *       2. null - файл не загружен.
-        * */
         val uploadResult = pvcMainPageService.setFile(
             PvcFileDto(multipartFile.originalFilename ?: "filename", multipartFile.bytes)
         )
         sessionStatus.setComplete()
+        // TODO Add redirect attribute with new file name
         return "redirect:/"
     }
 }
