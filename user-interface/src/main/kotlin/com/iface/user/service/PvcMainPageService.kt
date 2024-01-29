@@ -8,7 +8,7 @@ interface PvcMainPageService {
 
     fun getFilesList(): List<PvcFileInfoDto>
 
-    fun setFile(pvcFileDto: PvcFileDto): PvcFileInfoDto?
+    fun setFile(pvcFileDto: PvcFileDto): PvcFileInfoDto
 
-    fun getFile(id: String): PvcFileDto?
+    fun getFile(id: String): PvcFileDto
 }
