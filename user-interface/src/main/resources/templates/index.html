@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
         <title>Converter: PDF to MP3 - UI</title>
     </head>
     <body>
         <h1>Converter: PDF to MP3 - UI for USER: <span th:text="${username}">No user</span></h1>
+        <div th:if="${apiException}">
+            <div>
+                <span th:text="'Operation fails with exception message: ' + ${apiException.message}">Exception message</span>
+            </div>
+            <div>
+                <span th:text="'and debug message: ' + ${apiException.debugMessage}">Debug message</span>
+            </div>
+        </div>
         <form method="post" enctype="multipart/form-data" th:object="${pvcIncomeData}">
             <div>
                 <input type="file" th:field="*{file}" th:value="${file}">
