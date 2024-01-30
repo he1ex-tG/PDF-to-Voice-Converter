@@ -16,6 +16,8 @@ repositories {
     mavenLocal()
 }
 
+extra["springCloudVersion"] = "2023.0.0"
+
 dependencies {
     implementation(project(":shared-objects"))
 
@@ -23,10 +25,16 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("net.sf.sociaal:freetts:1.2.2")
     implementation("com.itextpdf:itextpdf:5.0.6")
     implementation("net.sourceforge.lame:lame:3.98.4")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<KotlinCompile> {

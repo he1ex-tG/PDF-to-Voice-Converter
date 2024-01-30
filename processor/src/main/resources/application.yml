@@ -4,6 +4,13 @@ spring:
   application:
     name: PROCESSOR
 eureka:
+  instance:
+    hostname: localhost:7025
   client:
     serviceUrl:
-      defaultZone: http://localhost:7025/eureka
+      defaultZone: http://${eureka.instance.hostname}/eureka
+pvc:
+  converterApi:
+    apiPath: /api/v1
+  dataStorage:
+    apiPath: /api/v1

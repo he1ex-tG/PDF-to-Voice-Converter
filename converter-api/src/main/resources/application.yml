@@ -1,3 +1,12 @@
 server:
   port:
     7005
+spring:
+  application:
+    name: CONVERTER-API
+eureka:
+  instance:
+    hostname: localhost:7025
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}/eureka

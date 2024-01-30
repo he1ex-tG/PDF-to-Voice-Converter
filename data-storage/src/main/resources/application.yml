@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: DATA-STORAGE
   profiles:
     include:
       - mongodb
@@ -8,7 +10,13 @@ spring:
 server:
   port:
     7000
+eureka:
+  instance:
+    hostname: localhost:7025
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}/eureka
 pvc:
   file:
-    local-storage-path: E:\PDF_to_Voice_Converter_storage
-    local-storage-size: 2
+    localStoragePath: E:\PDF_to_Voice_Converter_storage
+    localStorageSize: 2

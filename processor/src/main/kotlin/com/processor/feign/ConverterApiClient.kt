@@ -4,12 +4,11 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 
 @FeignClient(
-    name = "ConverterApi",
-    url = "localhost:7005/api/v1/converter",
+    name = "CONVERTER-API",
     configuration = [ConverterApiClientConfiguration::class]
 )
 interface ConverterApiClient {
 
-    @PostMapping
+    @PostMapping("\${pvc.converterApi.apiPath}/converter")
     fun convert(data: ByteArray): ByteArray
 }

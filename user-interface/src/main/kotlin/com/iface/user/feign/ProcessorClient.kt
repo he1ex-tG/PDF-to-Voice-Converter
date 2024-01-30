@@ -8,19 +8,18 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 
 @FeignClient(
-    name = "Processor",
-    url = "http://localhost:7015/api/v1/files",
+    name = "PROCESSOR",
     configuration = [ProcessorClientConfiguration::class]
 )
 interface ProcessorClient {
 
-    @GetMapping
+    @GetMapping("\${pvc.processor.apiPath}/files")
     fun getFilesList(): List<PvcFileInfoDto>
 
-    @PostMapping
+    @PostMapping("\${pvc.processor.apiPath}/files")
     fun setFile(pvcFileDto: PvcFileDto): PvcFileInfoDto
 
-    @GetMapping("/{id}")
+    @GetMapping("\${pvc.processor.apiPath}/files/{id}")
     fun getFile(@PathVariable("id") id: String): PvcFileDto
 
 }

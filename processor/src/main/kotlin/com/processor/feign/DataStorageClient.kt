@@ -9,16 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 
 @FeignClient(
-    name = "DataStorage",
-    url = "localhost:7000/api/v1/files",
+    name = "DATA-STORAGE",
     configuration = [DataStorageClientConfiguration::class]
 )
 interface DataStorageClient {
 
-    @GetMapping(path = ["/{id}"])
+    @GetMapping(path = ["\${pvc.dataStorage.apiPath}/files/{id}"])
     fun getPvcFile(@PathVariable("id") id: String): PvcFileDto
-    @GetMapping
+
+    @GetMapping(path = ["\${pvc.dataStorage.apiPath}/files"])
     fun getPvcFilesList(): List<PvcFileInfoDto>
-    @PostMapping
+
+    @PostMapping(path = ["\${pvc.dataStorage.apiPath}/files"])
     fun sendPvcFile(@RequestBody pvcFile: PvcFileDto): PvcFileInfoDto
 }
