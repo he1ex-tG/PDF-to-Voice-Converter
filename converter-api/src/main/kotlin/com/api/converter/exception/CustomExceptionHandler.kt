@@ -28,7 +28,15 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
                 return object : ProblemDetail() {
 
                     override fun getStatus(): Int {
-                        return statusCode.value()
+                        return apiException.httpStatus
+                    }
+
+                    override fun getTitle(): String {
+                        return HttpStatus.valueOf(apiException.httpStatus).reasonPhrase
+                    }
+
+                    override fun getDetail(): String {
+                        return ""
                     }
 
                     override fun getProperties(): MutableMap<String, Any> {
@@ -38,7 +46,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
             }
 
         }
-        return ResponseEntity(errorResponse.body, HttpHeaders.EMPTY, errorResponse.statusCode)
+        return ResponseEntity(errorResponse.body, errorResponse.headers, errorResponse.statusCode)
     }
 
     /**
