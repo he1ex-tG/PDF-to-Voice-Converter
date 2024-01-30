@@ -40,7 +40,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
                     }
 
                     override fun getProperties(): MutableMap<String, Any> {
-                        return mutableMapOf("ApiException" to apiException)
+                        return mutableMapOf(apiException::class.java.simpleName to apiException)
                     }
                 }
             }
