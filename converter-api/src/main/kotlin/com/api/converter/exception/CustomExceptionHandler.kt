@@ -5,10 +5,11 @@ import com.itextpdf.text.exceptions.IllegalPdfSyntaxException
 import com.itextpdf.text.exceptions.InvalidPdfException
 import com.itextpdf.text.exceptions.UnsupportedPdfException
 import com.objects.shared.exception.ApiException
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.http.*
+import org.springframework.web.ErrorResponse
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
@@ -17,31 +18,41 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * ResponseEntity builder
      */
-    private fun buildResponseEntity(apiException: ApiException): ResponseEntity<ApiException> {
-        return ResponseEntity(apiException, HttpStatus.valueOf(apiException.httpStatus))
+    private fun buildResponseEntity(apiException: ApiException): ResponseEntity<Any> {
+        val errorResponse = object : ErrorResponse {
+            override fun getStatusCode(): HttpStatusCode {
+                return HttpStatus.valueOf(apiException.httpStatus)
+            }
+
+            override fun getBody(): ProblemDetail {
+                return object : ProblemDetail() {
+
+                    override fun getStatus(): Int {
+                        return statusCode.value()
+                    }
+
+                    override fun getProperties(): MutableMap<String, Any> {
+                        return mutableMapOf("ApiException" to apiException)
+                    }
+                }
+            }
+
+        }
+        return ResponseEntity(errorResponse.body, HttpHeaders.EMPTY, errorResponse.statusCode)
     }
 
     /**
      * Default exception handlers
      */
-    @ExceptionHandler(Throwable::class)
-    fun handlerThrowable(ex: Throwable): ResponseEntity<ApiException> {
-        val e = ApiException(
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = "Converter Api raised unknown exception",
-            debugMessage = ex.message ?: "No debug message"
-        )
-        return buildResponseEntity(e)
-    }
 
     /**
      * Custom exception handlers
      */
     @ExceptionHandler(TtsEmptyStringException::class)
-    fun handlerTtsEmptyStringException(ex: TtsEmptyStringException): ResponseEntity<ApiException> {
+    fun handlerTtsEmptyStringException(ex: TtsEmptyStringException): ResponseEntity<Any> {
         val e = ApiException(
-            httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Converter Api got incorrect input data",
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+            message = "Converter Api can not convert empty string to mp3",
             debugMessage = ex.message ?: "No debug message"
         )
         return buildResponseEntity(e)
@@ -51,7 +62,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      * ITextPDF module exception handlers
      */
     @ExceptionHandler(BadPasswordException::class)
-    fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<ApiException> {
+    fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
@@ -61,7 +72,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(IllegalPdfSyntaxException::class)
-    fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<ApiException> {
+    fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
@@ -71,7 +82,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(InvalidPdfException::class)
-    fun handlerInvalidPdfException(ex: InvalidPdfException): ResponseEntity<ApiException> {
+    fun handlerInvalidPdfException(ex: InvalidPdfException, request: WebRequest): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
@@ -81,7 +92,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     }
 
     @ExceptionHandler(UnsupportedPdfException::class)
-    fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<ApiException> {
+    fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
