@@ -4,5 +4,5 @@ class ApiValidationException(
     val `object`: String,
     val message: String,
     val field: String,
-    val rejectedValue: Any
+    val rejectedValue: Any?
 )
