@@ -18,9 +18,12 @@ class ConverterControllerImpl(
         consumes = [MediaType.APPLICATION_OCTET_STREAM_VALUE],
         produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE]
     )
-    override fun convert(@RequestBody data: ByteArray): ResponseEntity<ByteArray> {
+    override fun convert(@RequestBody data: ByteArray?): ResponseEntity<ByteArray> {
         return ResponseEntity
             .ok()
-            .body(converterService.convert(data))
+            .body(converterService.convert(
+                // data is always not null because validation
+                data!!
+            ))
     }
 }
