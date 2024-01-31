@@ -18,7 +18,7 @@ class ApiException(
     @JsonProperty("debugMessage")
     val debugMessage: String = "",
     @JsonProperty("subErrors")
-    val subErrors: List<ApiValidationException>? = null,
+    val subErrors: MutableList<ApiValidationException> = mutableListOf(),
 ) {
     constructor(
         httpStatus: Int,
