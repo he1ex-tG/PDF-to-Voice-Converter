@@ -5,6 +5,8 @@ import com.itextpdf.text.exceptions.IllegalPdfSyntaxException
 import com.itextpdf.text.exceptions.InvalidPdfException
 import com.itextpdf.text.exceptions.UnsupportedPdfException
 import com.objects.shared.exception.ApiException
+import com.objects.shared.exception.ApiValidationException
+import jakarta.validation.ConstraintViolationException
 import jakarta.validation.ValidationException
 import org.springframework.http.*
 import org.springframework.web.ErrorResponse
@@ -58,8 +60,27 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api received incorrect input data",
-            debugMessage = ex.message ?: "No debug message"
+            debugMessage = ex.message.orEmpty()
         )
+        return buildResponseEntity(e)
+    }
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any> {
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api received incorrect input data",
+            debugMessage = ""
+        )
+        for (constraintViolation in ex.constraintViolations) {
+            val apiValidationException = ApiValidationException(
+                constraintViolation.rootBeanClass.name,
+                constraintViolation.message,
+                constraintViolation.propertyPath.toString(),
+                constraintViolation.invalidValue
+            )
+            e.subErrors.add(apiValidationException)
+        }
         return buildResponseEntity(e)
     }
 
@@ -71,7 +92,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val e = ApiException(
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
             message = "Converter Api can not convert empty string to mp3",
-            debugMessage = ex.message ?: "No debug message"
+            debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
     }
@@ -84,7 +105,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
-            debugMessage = ex.message ?: "No debug message"
+            debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
     }
@@ -94,7 +115,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
-            debugMessage = ex.message ?: "No debug message"
+            debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
     }
@@ -104,7 +125,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
-            debugMessage = ex.message ?: "No debug message"
+            debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
     }
@@ -114,7 +135,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api got incorrect input data",
-            debugMessage = ex.message ?: "No debug message"
+            debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
     }
