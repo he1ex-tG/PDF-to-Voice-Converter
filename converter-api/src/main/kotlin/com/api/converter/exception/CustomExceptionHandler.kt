@@ -5,6 +5,7 @@ import com.itextpdf.text.exceptions.IllegalPdfSyntaxException
 import com.itextpdf.text.exceptions.InvalidPdfException
 import com.itextpdf.text.exceptions.UnsupportedPdfException
 import com.objects.shared.exception.ApiException
+import jakarta.validation.ValidationException
 import org.springframework.http.*
 import org.springframework.web.ErrorResponse
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -52,6 +53,15 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * Default exception handlers
      */
+    @ExceptionHandler(ValidationException::class)
+    fun handleValidationException(ex: ValidationException): ResponseEntity<Any> {
+        val e = ApiException(
+            httpStatus = HttpStatus.BAD_REQUEST.value(),
+            message = "Converter Api received incorrect input data",
+            debugMessage = ex.message ?: "No debug message"
+        )
+        return buildResponseEntity(e)
+    }
 
     /**
      * Custom exception handlers
