@@ -9,8 +9,8 @@ import org.springframework.validation.annotation.Validated
 interface ConverterController {
 
     fun convert(
-        @NotNull(message = "Input byte array is null")
-        @NotEmpty(message = "Input byte array is empty")
+        @NotNull(message = "{converterApi.convert.data.isNull}")
+        @NotEmpty(message = "{converterApi.convert.data.isEmpty}")
         data: ByteArray?
     ): ResponseEntity<ByteArray>
 
