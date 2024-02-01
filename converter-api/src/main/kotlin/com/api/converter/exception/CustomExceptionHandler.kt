@@ -104,7 +104,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     fun handlerBadPasswordException(ex: BadPasswordException): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Converter Api got incorrect input data",
+            message = "Converter Api received incorrect input data",
             debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
@@ -114,7 +114,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Converter Api got incorrect input data",
+            message = "Converter Api received incorrect input data",
             debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
@@ -124,7 +124,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     fun handlerInvalidPdfException(ex: InvalidPdfException, request: WebRequest): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Converter Api got incorrect input data",
+            message = "Converter Api received incorrect input data",
             debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
@@ -134,7 +134,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     fun handlerUnsupportedPdfException(ex: UnsupportedPdfException): ResponseEntity<Any> {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Converter Api got incorrect input data",
+            message = "Converter Api received incorrect input data",
             debugMessage = ex.message.orEmpty()
         )
         return buildResponseEntity(e)
