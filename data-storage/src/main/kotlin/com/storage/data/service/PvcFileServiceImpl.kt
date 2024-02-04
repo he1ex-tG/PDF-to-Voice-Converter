@@ -2,7 +2,7 @@ package com.storage.data.service
 
 import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
-import com.storage.data.configuration.PvcFileServiceConfig
+import com.storage.data.configuration.PvcDataStorageConfig
 import com.storage.data.entity.PvcFile
 import com.storage.data.entity.PvcUser
 import com.storage.data.exception.LoadPvcFileException
@@ -14,16 +14,16 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 @Service
-@EnableConfigurationProperties(PvcFileServiceConfig::class)
+@EnableConfigurationProperties(PvcDataStorageConfig::class)
 class PvcFileServiceImpl(
     private val pvcFileRepository: PvcFileRepository,
-    private val pvcFileServiceConfig: PvcFileServiceConfig
+    private val pvcDataStorageConfig: PvcDataStorageConfig
 ) : PvcFileService {
 
     private val pvcUserTemplate = PvcUser("id12345", "templateUser", "templatePassword")
 
     private fun filePathBuilder(filename: String): String {
-        val localStoragePath = pvcFileServiceConfig.localStoragePath
+        val localStoragePath = pvcDataStorageConfig.localStoragePath
         return if (localStoragePath.last() != '\\') {
             localStoragePath + "\\" + filename
         } else {
