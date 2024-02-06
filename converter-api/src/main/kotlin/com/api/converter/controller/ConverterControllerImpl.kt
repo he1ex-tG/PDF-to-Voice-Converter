@@ -21,9 +21,6 @@ class ConverterControllerImpl(
     override fun convert(@RequestBody data: ByteArray): ResponseEntity<ByteArray> {
         return ResponseEntity
             .ok()
-            .body(converterService.convert(
-                // data is always not null because validation
-                data
-            ))
+            .body(converterService.convert(data))
     }
 }
