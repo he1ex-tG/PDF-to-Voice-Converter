@@ -2,7 +2,9 @@ package com.storage.data.controller
 
 import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
+import com.storage.data.dto.PvcFileConstrainedDto
 import com.storage.data.service.PvcFileService
+import jakarta.validation.Valid
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,8 +34,15 @@ class PvcFileControllerImpl(
             .body(pvcFileService.getPvcFileList())
     }
 
-    @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    override fun uploadPvcFile(@RequestBody pvcFile: PvcFileDto): ResponseEntity<PvcFileInfoDto> {
+    @PostMapping(
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    override fun uploadPvcFile(
+        @Valid
+        @RequestBody
+        pvcFile: PvcFileConstrainedDto
+    ): ResponseEntity<PvcFileInfoDto> {
         return ResponseEntity
             .ok()
             .body(pvcFileService.savePvcFile(pvcFile))
