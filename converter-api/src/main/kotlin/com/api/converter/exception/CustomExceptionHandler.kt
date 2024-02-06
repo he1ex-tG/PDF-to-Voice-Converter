@@ -5,10 +5,8 @@ import com.itextpdf.text.exceptions.IllegalPdfSyntaxException
 import com.itextpdf.text.exceptions.InvalidPdfException
 import com.itextpdf.text.exceptions.UnsupportedPdfException
 import com.objects.shared.exception.ApiException
-import com.objects.shared.exception.ApiValidationException
-import jakarta.validation.ConstraintViolationException
-import jakarta.validation.ValidationException
 import org.springframework.http.*
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.ErrorResponse
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -55,32 +53,18 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * Default exception handlers
      */
-    @ExceptionHandler(ValidationException::class)
-    fun handleValidationException(ex: ValidationException): ResponseEntity<Any> {
+
+    override fun handleHttpMessageNotReadable(
+        ex: HttpMessageNotReadableException,
+        headers: HttpHeaders,
+        status: HttpStatusCode,
+        request: WebRequest
+    ): ResponseEntity<Any>? {
         val e = ApiException(
             httpStatus = HttpStatus.BAD_REQUEST.value(),
             message = "Converter Api received incorrect input data",
             debugMessage = ex.message.orEmpty()
         )
-        return buildResponseEntity(e)
-    }
-
-    @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any> {
-        val e = ApiException(
-            httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Converter Api received incorrect input data",
-            debugMessage = ""
-        )
-        for (constraintViolation in ex.constraintViolations) {
-            val apiValidationException = ApiValidationException(
-                constraintViolation.rootBeanClass.name,
-                constraintViolation.message,
-                constraintViolation.propertyPath.toString(),
-                constraintViolation.invalidValue
-            )
-            e.subErrors.add(apiValidationException)
-        }
         return buildResponseEntity(e)
     }
 
