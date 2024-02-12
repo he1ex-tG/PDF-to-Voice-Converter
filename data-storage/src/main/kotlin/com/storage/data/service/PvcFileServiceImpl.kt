@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.nio.file.Files
+import java.nio.file.Path
 import kotlin.io.path.Path
 import kotlin.io.path.pathString
 
@@ -25,20 +26,31 @@ class PvcFileServiceImpl(
 
     private val pvcUserTemplate = PvcUser("id12345", "templateUser", "templatePassword")
 
-    private fun filePathBuilder(filename: String): String {
+    private fun filePathBuilder(filename: String): Path {
         val localStoragePath = Path(pvcDataStorageConfig.localStoragePath, filename)
         if (!Files.isDirectory(localStoragePath.parent)) {
             Files.createDirectories(localStoragePath.parent)
         }
-        return localStoragePath.pathString
+        return localStoragePath
+    }
+
+    private fun deleteOverageFiles(pvcUserId: String) {
+        val localStorageSize = pvcDataStorageConfig.localStorageSize.toInt()
+        pvcFileRepository.findAllByPvcUserId(pvcUserId).sortedByDescending(PvcFile::dateTime).forEachIndexed { index, pvcFile ->
+            if (index > localStorageSize - 1) {
+                deletePvcFile(pvcFile.id!!)
+            }
+        }
     }
 
     override fun savePvcFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
         try {
             val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserTemplate.id!!))
-            val fileOutputStream = FileOutputStream(filePathBuilder(pvcFile.id!!))
+            val fileOutputStream = FileOutputStream(filePathBuilder(pvcFile.id!!).pathString)
             fileOutputStream.write(pvcFileDto.file)
             fileOutputStream.close()
+            // Delete overage files
+            deleteOverageFiles(pvcUserTemplate.id!!)
             return pvcFile.toPvcFileInfoDto()
         }
         catch (_: Throwable) {
@@ -50,12 +62,12 @@ class PvcFileServiceImpl(
         try {
             val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserTemplate.id!!)
             val pvcFile = pvcFileOptional.get()
-            val fileInputStream = FileInputStream(filePathBuilder(pvcFile.id!!))
+            val fileInputStream = FileInputStream(filePathBuilder(pvcFile.id!!).pathString)
             val fileByteArray = fileInputStream.readBytes()
             fileInputStream.close()
             return pvcFile.toPvcFileDto(fileByteArray)
         } catch (_: Throwable) {
-            throw LoadPvcFileException("Load file from repository function thrown an exception, file with id = ${pvcFileId} not load")
+            throw LoadPvcFileException("Load file from repository function thrown an exception, file with id = $pvcFileId not load")
         }
     }
 
@@ -64,5 +76,14 @@ class PvcFileServiceImpl(
             .map {
                 it.toPvcFileInfoDto()
             }
+    }
+
+    override fun deletePvcFile(pvcFileId: String) {
+        try {
+            Files.deleteIfExists(filePathBuilder(pvcFileId))
+        }
+        finally {
+            pvcFileRepository.deleteById(pvcFileId)
+        }
     }
 }
