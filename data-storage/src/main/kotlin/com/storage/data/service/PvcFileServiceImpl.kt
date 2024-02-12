@@ -12,6 +12,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.nio.file.Files
+import kotlin.io.path.Path
+import kotlin.io.path.pathString
 
 @Service
 @EnableConfigurationProperties(PvcDataStorageConfig::class)
@@ -23,12 +26,11 @@ class PvcFileServiceImpl(
     private val pvcUserTemplate = PvcUser("id12345", "templateUser", "templatePassword")
 
     private fun filePathBuilder(filename: String): String {
-        val localStoragePath = pvcDataStorageConfig.localStoragePath
-        return if (localStoragePath.last() != '\\') {
-            localStoragePath + "\\" + filename
-        } else {
-            localStoragePath + filename
+        val localStoragePath = Path(pvcDataStorageConfig.localStoragePath, filename)
+        if (!Files.isDirectory(localStoragePath.parent)) {
+            Files.createDirectories(localStoragePath.parent)
         }
+        return localStoragePath.pathString
     }
 
     override fun savePvcFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
