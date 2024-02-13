@@ -36,10 +36,9 @@ class PvcFileServiceImpl(
 
     private fun deleteOverageFiles(pvcUserId: String) {
         val localStorageSize = pvcDataStorageConfig.localStorageSize.toInt()
-        pvcFileRepository.findAllByPvcUserId(pvcUserId).sortedByDescending(PvcFile::dateTime).forEachIndexed { index, pvcFile ->
-            if (index > localStorageSize - 1) {
-                deletePvcFile(pvcFile.id!!)
-            }
+        val userFiles = pvcFileRepository.findAllByPvcUserId(pvcUserId).sortedByDescending(PvcFile::dateTime)
+        for (index in localStorageSize until userFiles.count()) {
+            deletePvcFile(userFiles.elementAt(index).id!!)
         }
     }
 
@@ -53,8 +52,9 @@ class PvcFileServiceImpl(
             deleteOverageFiles(pvcUserTemplate.id!!)
             return pvcFile.toPvcFileInfoDto()
         }
-        catch (_: Throwable) {
-            throw SavePvcFileException("Save file to repository function thrown an exception, file not save")
+        catch (ex: Throwable) {
+            throw SavePvcFileException("Save file to repository function thrown an exception with message " +
+                    "${ex.message ?: "No message"}, file not save")
         }
     }
 
@@ -66,8 +66,9 @@ class PvcFileServiceImpl(
             val fileByteArray = fileInputStream.readBytes()
             fileInputStream.close()
             return pvcFile.toPvcFileDto(fileByteArray)
-        } catch (_: Throwable) {
-            throw LoadPvcFileException("Load file from repository function thrown an exception, file with id = $pvcFileId not load")
+        } catch (ex: Throwable) {
+            throw LoadPvcFileException("Load file from repository function thrown an exception with message: " +
+                    "${ex.message ?: "No message"}, file with id = $pvcFileId not load")
         }
     }
 
