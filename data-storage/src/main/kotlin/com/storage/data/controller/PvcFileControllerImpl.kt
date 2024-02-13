@@ -5,6 +5,7 @@ import com.objects.shared.dto.PvcFileInfoDto
 import com.storage.data.dto.PvcFileConstrainedDto
 import com.storage.data.service.PvcFileService
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -44,7 +45,7 @@ class PvcFileControllerImpl(
         pvcFile: PvcFileConstrainedDto
     ): ResponseEntity<PvcFileInfoDto> {
         return ResponseEntity
-            .ok()
+            .status(HttpStatus.CREATED)
             .body(pvcFileService.savePvcFile(pvcFile))
     }
 }
