@@ -1,5 +1,8 @@
 plugins {
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
     kotlin("jvm")
+    kotlin("plugin.spring")
 }
 
 repositories {
@@ -7,6 +10,10 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude("org.springframework.boot:spring-boot-starter-tomcat")
+    }
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
