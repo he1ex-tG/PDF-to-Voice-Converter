@@ -13,16 +13,16 @@ class ProcessorServiceImpl(
 ) : ProcessorService {
 
     override fun getFilesList(): List<PvcFileInfoDto> {
-        return dataStorageClient.getPvcFilesList()
+        return dataStorageClient.downloadPvcFileList()
     }
 
     override fun convertAndStoreFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
         val convertedPdf = converterApiClient.convert(pvcFileDto.file)
         val newFilename = (pvcFileDto.filename.substringBeforeLast('.')) + ".mp3"
-        return dataStorageClient.sendPvcFile(PvcFileDto(newFilename, convertedPdf))
+        return dataStorageClient.uploadPvcFile(PvcFileDto(newFilename, convertedPdf))
     }
 
     override fun getFile(id: String): PvcFileDto {
-        return dataStorageClient.getPvcFile(id)
+        return dataStorageClient.downloadPvcFile(id)
     }
 }
