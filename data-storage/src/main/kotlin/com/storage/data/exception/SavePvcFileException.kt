@@ -4,4 +4,4 @@ import java.io.IOException
 
 class SavePvcFileException(
     override val message: String?
-) : IOException()
+) : IOException(message)
