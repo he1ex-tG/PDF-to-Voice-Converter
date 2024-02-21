@@ -22,7 +22,7 @@ class TextToSpeechServiceImpl : TextToSpeechService {
 
     override fun speech(text: String): ByteArray {
         if (text.isBlank()) {
-            throw TtsEmptyStringException("Text is empty or consists solely of whitespace characters")
+            throw TtsEmptyStringException()
         }
         voice.audioPlayer = mp3StreamAudioPlayer
         voice.speak(text)
