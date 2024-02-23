@@ -1,13 +1,10 @@
 package com.storage.data.exception
 
 import com.mongodb.MongoException
-import com.objects.shared.exception.ApiException
-import com.objects.shared.exception.ApiValidationException
 import jakarta.validation.ConstraintViolationException
 import jakarta.validation.ValidationException
 import org.springframework.http.*
 import org.springframework.http.converter.HttpMessageNotReadableException
-import org.springframework.web.ErrorResponse
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -20,69 +17,34 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     /**
      * ResponseEntity builder
      */
-    private fun buildResponseEntity(apiException: ApiException): ResponseEntity<Any> {
-        val errorResponse = object : ErrorResponse {
-            override fun getStatusCode(): HttpStatusCode {
-                return HttpStatus.valueOf(apiException.httpStatus)
-            }
-
-            override fun getBody(): ProblemDetail {
-                return object : ProblemDetail() {
-
-                    override fun getStatus(): Int {
-                        return apiException.httpStatus
-                    }
-
-                    override fun getTitle(): String {
-                        return HttpStatus.valueOf(apiException.httpStatus).reasonPhrase
-                    }
-
-                    override fun getDetail(): String {
-                        return ""
-                    }
-
-                    override fun getProperties(): MutableMap<String, Any> {
-                        return mutableMapOf(ApiException::class.java.simpleName to apiException)
-                    }
-                }
-            }
-
-        }
-        return ResponseEntity(errorResponse.body, errorResponse.headers, errorResponse.statusCode)
-    }
 
     /**
      * Default exception handlers
      */
     @ExceptionHandler(MongoException::class)
-    fun handlerMongoException(ex: MongoException): ResponseEntity<Any> {
+    fun handlerMongoException(ex: MongoException, request: WebRequest): ResponseEntity<Any>? {
         // Hide MongoDB exception messages
-        val templateEx = Throwable("Database exception")
-        val e = ApiException(
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = "Data Storage module encountered an exception",
-            debugMessage = templateEx.message.orEmpty()
-        )
-        return buildResponseEntity(e)
+        val status = HttpStatus.INTERNAL_SERVER_ERROR
+        val defaultDetail = "Database exception"
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
     @ExceptionHandler(ValidationException::class)
-    fun handleValidationException(ex: ValidationException): ResponseEntity<Any> {
-        val e = ApiException(
-            httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Data Storage received incorrect input data",
-            debugMessage = ""
-        )
-        return buildResponseEntity(e)
+    fun handleValidationException(ex: ValidationException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.BAD_REQUEST
+        val defaultDetail = ex.localizedMessage
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
     @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<Any> {
-        val e = ApiException(
-            httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Data Storage received incorrect input data",
-            debugMessage = ""
-        )
+    fun handleConstraintViolationException(ex: ConstraintViolationException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.BAD_REQUEST
+        val defaultDetail = ex.localizedMessage
+/*
         for (constraintViolation in ex.constraintViolations) {
             val apiValidationException = ApiValidationException(
                 constraintViolation.rootBeanClass.name,
@@ -92,62 +54,41 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
             )
             e.subErrors.add(apiValidationException)
         }
-        return buildResponseEntity(e)
+*/
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)    }
+
+    override fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatusCode, request: WebRequest): ResponseEntity<Any>? {
+        val defaultDetail = ex.localizedMessage
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
-    override fun handleMethodArgumentNotValid(
-        ex: MethodArgumentNotValidException,
-        headers: HttpHeaders,
-        status: HttpStatusCode,
-        request: WebRequest
-    ): ResponseEntity<Any>? {
-        val e = ApiException(
-            httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Data Storage received incorrect input data",
-            debugMessage = "",
-        )
-        for (er in ex.bindingResult.fieldErrors) {
-            e.subErrors.add(
-                ApiValidationException(er.objectName, er.defaultMessage.orEmpty(), er.field, er.rejectedValue)
-            )
-        }
-        return buildResponseEntity(e)
-    }
-
-    override fun handleHttpMessageNotReadable(
-        ex: HttpMessageNotReadableException,
-        headers: HttpHeaders,
-        status: HttpStatusCode,
-        request: WebRequest
-    ): ResponseEntity<Any>? {
-        val e = ApiException(
-            httpStatus = HttpStatus.BAD_REQUEST.value(),
-            message = "Data Storage received incorrect input data",
-            debugMessage = ex.message.orEmpty()
-        )
-        return buildResponseEntity(e)
+    override fun handleHttpMessageNotReadable(ex: HttpMessageNotReadableException, headers: HttpHeaders, status: HttpStatusCode, request: WebRequest): ResponseEntity<Any>? {
+        val defaultDetail = ex.localizedMessage
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
     /**
      * Custom exception handlers
      */
     @ExceptionHandler(SavePvcFileException::class)
-    fun handlerSavePvcFileException(ex: SavePvcFileException): ResponseEntity<Any> {
-        val e = ApiException(
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = "Data Storage module encountered an exception when saving a file",
-            debugMessage = ex.message.orEmpty()
-        )
-        return buildResponseEntity(e)
+    fun handlerSavePvcFileException(ex: SavePvcFileException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.INTERNAL_SERVER_ERROR
+        val defaultDetail = ex.localizedMessage ?: "Save file function thrown an exception, file not save"
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
     @ExceptionHandler(LoadPvcFileException::class)
-    fun handlerLoadPvcFileException(ex: LoadPvcFileException): ResponseEntity<Any> {
-        val e = ApiException(
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = "Data Storage module encountered an exception when loading a file",
-            debugMessage = ex.message.orEmpty()
-        )
-        return buildResponseEntity(e)
+    fun handlerLoadPvcFileException(ex: LoadPvcFileException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.INTERNAL_SERVER_ERROR
+        val defaultDetail = ex.localizedMessage ?: "Load file function thrown an exception, file not load"
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
 }
