@@ -57,7 +57,8 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 */
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
-        return handleExceptionInternal(ex, problem, headers, status, request)    }
+        return handleExceptionInternal(ex, problem, headers, status, request)
+    }
 
     override fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatusCode, request: WebRequest): ResponseEntity<Any>? {
         val defaultDetail = ex.localizedMessage
