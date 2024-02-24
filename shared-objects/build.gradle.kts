@@ -14,7 +14,7 @@ dependencies {
         exclude("org.springframework.boot:spring-boot-starter-tomcat")
     }
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
 
