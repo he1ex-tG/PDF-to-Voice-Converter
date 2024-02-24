@@ -45,7 +45,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(BadPasswordException::class)
     fun handlerBadPasswordException(ex: BadPasswordException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.BAD_REQUEST
-        val defaultDetail = ex.localizedMessage
+        val defaultDetail = ex.localizedMessage.dropLast(1)
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
@@ -54,7 +54,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(IllegalPdfSyntaxException::class)
     fun handlerIllegalPdfSyntaxException(ex: IllegalPdfSyntaxException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.BAD_REQUEST
-        val defaultDetail = ex.localizedMessage
+        val defaultDetail = ex.localizedMessage.dropLast(1)
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
@@ -63,7 +63,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(InvalidPdfException::class)
     fun handlerInvalidPdfException(ex: InvalidPdfException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.BAD_REQUEST
-        val defaultDetail = ex.localizedMessage
+        val defaultDetail = ex.localizedMessage.dropLast(1)
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
@@ -72,7 +72,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(UnsupportedPdfException::class)
     fun handlerUnsupportedPdfException(ex: UnsupportedPdfException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.BAD_REQUEST
-        val defaultDetail = ex.localizedMessage
+        val defaultDetail = ex.localizedMessage.dropLast(1)
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
