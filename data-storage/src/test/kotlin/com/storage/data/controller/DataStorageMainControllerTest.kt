@@ -12,8 +12,12 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.post
+import java.util.UUID
 
 @WebMvcTest(controllers = [DataStorageMainControllerImpl::class])
 class ConverterApiMainControllerTest {
@@ -166,6 +170,132 @@ class ConverterApiMainControllerTest {
                 }
                 jsonPath("$.[1].filename") {
                     value("filename2")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `uploadPvcFile gets null request body - throw HttpMessageNotReadableException`() {
+        mockMvc.post("/api/v1/files") {
+            headers {
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            content = null
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("Required request body is missing"))
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `uploadPvcFile gets wrong object in body - throw JSON parsing error HttpMessageNotReadableException`() {
+        mockMvc.post("/api/v1/files") {
+            headers {
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            content = "{\"filename\":\"filename\", \"not_file_param\":[0, 1, 2]}"
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("JSON parse error"))
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `uploadPvcFile gets expected object but field is null - throw JSON parsing error HttpMessageNotReadableException`() {
+        mockMvc.post("/api/v1/files") {
+            headers {
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            content = "{\"filename\":null, \"file\":[0, 1, 2]}"
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("JSON parse error"))
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `uploadPvcFile gets expected object but field is empty - throw validation error MethodArgumentNotValidException`() {
+        mockMvc.post("/api/v1/files") {
+            headers {
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            content = "{\"filename\":\"\", \"file\":[0, 1, 2]}"
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("Validation failed"))
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `uploadPvcFile executed and ends with normal - 201`() {
+        val pvcFileInfoDto = PvcFileInfoDto(UUID.randomUUID().toString(), "filename")
+        given(pvcFileService.savePvcFile(MockitoHelper.anyObject())).willAnswer {
+            pvcFileInfoDto
+        }
+        mockMvc.post("/api/v1/files") {
+            headers {
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            content = "{\"filename\":\"${pvcFileInfoDto.filename}\", \"file\":[0, 1, 2]}"
+        }.andExpect {
+            status {
+                isCreated()
+            }
+            content {
+                jsonPath("id") {
+                    value(pvcFileInfoDto.id)
+                }
+                jsonPath("filename") {
+                    value(pvcFileInfoDto.filename)
                 }
             }
         }
