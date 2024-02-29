@@ -8,19 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 
 interface DataStorageMainController {
 
     @GetMapping(path = ["/files/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun downloadPvcFile(@PathVariable("id") id: String): PvcFileDto
+    fun downloadPvcFile(@PathVariable("id") pvcFileId: String, @RequestParam pvcUserId: String): PvcFileDto
 
     @GetMapping(path = ["/files"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun downloadPvcFileList(): List<PvcFileInfoDto>
+    fun downloadPvcFileList(@RequestParam pvcUserId: String): List<PvcFileInfoDto>
 
     @PostMapping(
         path = ["/files"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun uploadPvcFile(@Valid @RequestBody pvcFile: PvcFileDto): PvcFileInfoDto
+    fun uploadPvcFile(@Valid @RequestBody pvcFile: PvcFileDto, @RequestParam pvcUserId: String): PvcFileInfoDto
 }
