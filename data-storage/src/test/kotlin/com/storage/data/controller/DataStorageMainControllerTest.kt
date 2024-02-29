@@ -49,10 +49,11 @@ class ConverterApiMainControllerTest {
 
     @Test
     fun `downloadPvcFile gets id but database error - throw mongo base exception`() {
-        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject())).willAnswer {
+        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject(), MockitoHelper.anyObject())).willAnswer {
             throw MongoException("Some exception")
         }
         mockMvc.get("/api/v1/files/fileRandomId") {
+            param("pvcUserId", "pvcUserId")
             content = null
         }.andExpect {
             status {
@@ -74,10 +75,11 @@ class ConverterApiMainControllerTest {
 
     @Test
     fun `downloadPvcFile gets id but file not read or absent - throw LoadPvcFileException exception`() {
-        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject())).willAnswer {
+        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject(), MockitoHelper.anyObject())).willAnswer {
             throw LoadPvcFileException()
         }
         mockMvc.get("/api/v1/files/fileRandomId") {
+            param("pvcUserId", "pvcUserId")
             content = null
         }.andExpect {
             status {
@@ -98,11 +100,60 @@ class ConverterApiMainControllerTest {
     }
 
     @Test
+    fun `downloadPvcFile gets id but file is not belongs to the user - throw LoadPvcFileException exception`() {
+        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject(), MockitoHelper.anyObject())).willAnswer {
+            throw LoadPvcFileException()
+        }
+        mockMvc.get("/api/v1/files/fileRandomId") {
+            param("pvcUserId", "pvcUserId")
+            content = null
+        }.andExpect {
+            status {
+                isInternalServerError()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Internal Server Error")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("Load file function thrown an exception, file not load"))
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `downloadPvcFile gets file id but missing param pvcUserId - bad request`() {
+        mockMvc.get("/api/v1/files/fileRandomId") {
+            content = null
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("pvcUserId"))
+                }
+            }
+        }
+    }
+
+    @Test
     fun `downloadPvcFile gets id and ends with normal - 200`() {
-        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject())).willAnswer {
+        given(pvcFileService.loadPvcFile(MockitoHelper.anyObject(), MockitoHelper.anyObject())).willAnswer {
             PvcFileDto("name", byteArrayOf(1, 2, 3))
         }
         mockMvc.get("/api/v1/files/fileRandomId") {
+            param("pvcUserId", "pvcUserId")
             content = null
         }.andExpect {
             status {
@@ -121,10 +172,11 @@ class ConverterApiMainControllerTest {
 
     @Test
     fun `downloadPvcFileList executed but database error - throw mongo base exception`() {
-        given(pvcFileService.getPvcFileList()).willAnswer {
+        given(pvcFileService.getPvcFileList(MockitoHelper.anyObject())).willAnswer {
             throw MongoException("Some exception")
         }
         mockMvc.get("/api/v1/files") {
+            param("pvcUserId", "pvcUserId")
             content = null
         }.andExpect {
             status {
@@ -145,14 +197,37 @@ class ConverterApiMainControllerTest {
     }
 
     @Test
+    fun `downloadPvcFileList executed with missing param pvcUserId - bad request`() {
+        mockMvc.get("/api/v1/files") {
+            content = null
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("pvcUserId"))
+                }
+            }
+        }
+    }
+
+    @Test
     fun `downloadPvcFileList executed and ends with normal - 200`() {
-        given(pvcFileService.getPvcFileList()).willAnswer {
+        given(pvcFileService.getPvcFileList(MockitoHelper.anyObject())).willAnswer {
             listOf(
                 PvcFileInfoDto("id1", "filename1"),
                 PvcFileInfoDto("id2", "filename2")
             )
         }
         mockMvc.get("/api/v1/files") {
+            param("pvcUserId", "pvcUserId")
             content = null
         }.andExpect {
             status {
@@ -181,6 +256,7 @@ class ConverterApiMainControllerTest {
             headers {
                 set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             }
+            param("pvcUserId", "pvcUserId")
             content = null
         }.andExpect {
             status {
@@ -206,6 +282,7 @@ class ConverterApiMainControllerTest {
             headers {
                 set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             }
+            param("pvcUserId", "pvcUserId")
             content = "{\"filename\":\"filename\", \"not_file_param\":[0, 1, 2]}"
         }.andExpect {
             status {
@@ -231,6 +308,7 @@ class ConverterApiMainControllerTest {
             headers {
                 set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             }
+            param("pvcUserId", "pvcUserId")
             content = "{\"filename\":null, \"file\":[0, 1, 2]}"
         }.andExpect {
             status {
@@ -256,6 +334,7 @@ class ConverterApiMainControllerTest {
             headers {
                 set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             }
+            param("pvcUserId", "pvcUserId")
             content = "{\"filename\":\"\", \"file\":[0, 1, 2]}"
         }.andExpect {
             status {
@@ -276,15 +355,42 @@ class ConverterApiMainControllerTest {
     }
 
     @Test
+    fun `uploadPvcFile executed with missing param pvcUserId - bad request`() {
+        val pvcFileInfoDto = PvcFileInfoDto(UUID.randomUUID().toString(), "filename")
+        mockMvc.post("/api/v1/files") {
+            headers {
+                set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            }
+            content = "{\"filename\":\"${pvcFileInfoDto.filename}\", \"file\":[0, 1, 2]}"
+        }.andExpect {
+            status {
+                isBadRequest()
+            }
+            content {
+                jsonPath("type") {
+                    value("about:blank")
+                }
+                jsonPath("title") {
+                    value("Bad Request")
+                }
+                jsonPath("detail") {
+                    value(Matchers.containsString("pvcUserId"))
+                }
+            }
+        }
+    }
+
+    @Test
     fun `uploadPvcFile executed and ends with normal - 201`() {
         val pvcFileInfoDto = PvcFileInfoDto(UUID.randomUUID().toString(), "filename")
-        given(pvcFileService.savePvcFile(MockitoHelper.anyObject())).willAnswer {
+        given(pvcFileService.savePvcFile(MockitoHelper.anyObject(), MockitoHelper.anyObject())).willAnswer {
             pvcFileInfoDto
         }
         mockMvc.post("/api/v1/files") {
             headers {
                 set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             }
+            param("pvcUserId", "pvcUserId")
             content = "{\"filename\":\"${pvcFileInfoDto.filename}\", \"file\":[0, 1, 2]}"
         }.andExpect {
             status {
