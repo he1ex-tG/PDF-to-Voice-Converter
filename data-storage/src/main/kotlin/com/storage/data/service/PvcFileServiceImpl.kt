@@ -4,7 +4,6 @@ import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
 import com.storage.data.configuration.PvcDataStorageConfig
 import com.storage.data.entity.PvcFile
-import com.storage.data.entity.PvcUser
 import com.storage.data.exception.LoadPvcFileException
 import com.storage.data.exception.SavePvcFileException
 import com.storage.data.repository.PvcFileRepository
@@ -21,10 +20,8 @@ import kotlin.io.path.pathString
 @EnableConfigurationProperties(PvcDataStorageConfig::class)
 class PvcFileServiceImpl(
     private val pvcFileRepository: PvcFileRepository,
-    private val pvcDataStorageConfig: PvcDataStorageConfig
+    private val pvcDataStorageConfig: PvcDataStorageConfig,
 ) : PvcFileService {
-
-    private val pvcUserTemplate = PvcUser("id12345", "templateUser", "templatePassword")
 
     private fun filePathBuilder(filename: String): Path {
         val localStoragePath = Path(pvcDataStorageConfig.localStoragePath, filename)
@@ -38,18 +35,18 @@ class PvcFileServiceImpl(
         val localStorageSize = pvcDataStorageConfig.localStorageSize.toInt()
         val userFiles = pvcFileRepository.findAllByPvcUserId(pvcUserId).sortedByDescending(PvcFile::dateTime)
         for (index in localStorageSize until userFiles.count()) {
-            deletePvcFile(userFiles.elementAt(index).id!!)
+            deletePvcFile(userFiles.elementAt(index).id!!, pvcUserId)
         }
     }
 
-    override fun savePvcFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
-        val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserTemplate.id!!))
+    override fun savePvcFile(pvcFileDto: PvcFileDto, pvcUserId: String): PvcFileInfoDto {
+        val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserId))
         try {
             val fileOutputStream = FileOutputStream(filePathBuilder(pvcFile.id!!).pathString)
             fileOutputStream.write(pvcFileDto.file)
             fileOutputStream.close()
             // Delete overage files
-            deleteOverageFiles(pvcUserTemplate.id!!)
+            deleteOverageFiles(pvcUserId)
             return pvcFile.toPvcFileInfoDto()
         }
         catch (ex: Throwable) {
@@ -58,8 +55,8 @@ class PvcFileServiceImpl(
         }
     }
 
-    override fun loadPvcFile(pvcFileId: String): PvcFileDto {
-        val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserTemplate.id!!)
+    override fun loadPvcFile(pvcFileId: String, pvcUserId: String): PvcFileDto {
+        val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserId)
         try {
             val pvcFile = pvcFileOptional.get()
             val fileInputStream = FileInputStream(filePathBuilder(pvcFile.id!!).pathString)
@@ -72,14 +69,14 @@ class PvcFileServiceImpl(
         }
     }
 
-    override fun getPvcFileList(): List<PvcFileInfoDto> {
-        return pvcFileRepository.findAllByPvcUserId(pvcUserTemplate.id!!)
+    override fun getPvcFileList(pvcUserId: String): List<PvcFileInfoDto> {
+        return pvcFileRepository.findAllByPvcUserId(pvcUserId)
             .map {
                 it.toPvcFileInfoDto()
             }
     }
 
-    override fun deletePvcFile(pvcFileId: String) {
+    override fun deletePvcFile(pvcFileId: String, pvcUserId: String) {
         try {
             Files.deleteIfExists(filePathBuilder(pvcFileId))
         }
