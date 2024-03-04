@@ -93,7 +93,7 @@ class ConverterApiMainControllerTest {
                     value("Internal Server Error")
                 }
                 jsonPath("detail") {
-                    value(Matchers.containsString("Load file function thrown an exception, file not load"))
+                    value(Matchers.containsString("Load file function thrown an exception, file is not loaded"))
                 }
             }
         }
@@ -119,7 +119,7 @@ class ConverterApiMainControllerTest {
                     value("Internal Server Error")
                 }
                 jsonPath("detail") {
-                    value(Matchers.containsString("Load file function thrown an exception, file not load"))
+                    value(Matchers.containsString("Load file function thrown an exception, file is not loaded"))
                 }
             }
         }

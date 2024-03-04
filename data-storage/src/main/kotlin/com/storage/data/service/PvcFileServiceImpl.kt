@@ -51,7 +51,7 @@ class PvcFileServiceImpl(
         }
         catch (ex: Throwable) {
             throw SavePvcFileException("Save file to repository function thrown an exception with message: " +
-                    "${ex.message ?: "No message"}, file not save")
+                    "${ex.message ?: "No message"}, file is not saved")
         }
     }
 
@@ -65,7 +65,7 @@ class PvcFileServiceImpl(
             return pvcFile.toPvcFileDto(fileByteArray)
         } catch (ex: Throwable) {
             throw LoadPvcFileException("Load file from repository function thrown an exception with message: " +
-                    "${ex.message ?: "No message"}, file with id = $pvcFileId not load")
+                    "${ex.message ?: "No message"}, file with id = $pvcFileId is not loaded")
         }
     }
 
@@ -81,7 +81,7 @@ class PvcFileServiceImpl(
             Files.deleteIfExists(filePathBuilder(pvcFileId))
         }
         finally {
-            pvcFileRepository.deleteById(pvcFileId)
+            pvcFileRepository.deleteByIdAndPvcUserId(pvcFileId, pvcUserId)
         }
     }
 }

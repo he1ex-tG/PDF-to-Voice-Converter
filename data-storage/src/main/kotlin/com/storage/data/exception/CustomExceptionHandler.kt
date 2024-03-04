@@ -78,7 +78,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(SavePvcFileException::class)
     fun handlerSavePvcFileException(ex: SavePvcFileException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
-        val defaultDetail = ex.localizedMessage ?: "Save file function thrown an exception, file not save"
+        val defaultDetail = ex.localizedMessage ?: "Save file function thrown an exception, file is not saved"
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
@@ -87,7 +87,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(LoadPvcFileException::class)
     fun handlerLoadPvcFileException(ex: LoadPvcFileException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
-        val defaultDetail = ex.localizedMessage ?: "Load file function thrown an exception, file not load"
+        val defaultDetail = ex.localizedMessage ?: "Load file function thrown an exception, file is not loaded"
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
