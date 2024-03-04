@@ -8,4 +8,5 @@ interface PvcFileRepository : CrudRepository<PvcFile, String> {
 
     fun findAllByPvcUserId(pvcUserId: String): Iterable<PvcFile>
     fun findByIdAndPvcUserId(id: String, pvcUserId: String): Optional<PvcFile>
+    fun deleteByIdAndPvcUserId(id: String, pvcUserId: String)
 }
