@@ -1,5 +1,9 @@
 server:
   port: 7010
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
 spring:
   application:
     name: USER-INTERFACE
