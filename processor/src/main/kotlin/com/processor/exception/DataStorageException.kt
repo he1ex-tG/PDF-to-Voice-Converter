@@ -1,8 +1,8 @@
 package com.processor.exception
 
-import java.io.IOException
+import com.objects.shared.exception.PvcServiceException
 
 class DataStorageException(
-    val status: Int? = null,
+    override val status: Int? = null,
     override val message: String? = null
-) : IOException(message)
+) : PvcServiceException(status, message)

@@ -1,7 +1,8 @@
 package com.iface.user.exception
 
-import java.io.IOException
+import com.objects.shared.exception.PvcServiceException
 
 class ProcessorException(
-    override val message: String?
-) : IOException()
+    override val status: Int? = null,
+    override val message: String? = null
+) : PvcServiceException(status, message)
