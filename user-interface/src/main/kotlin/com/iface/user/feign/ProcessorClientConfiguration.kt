@@ -1,27 +1,20 @@
 package com.iface.user.feign
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import com.iface.user.exception.ProcessorException
-import com.objects.shared.exception.ApiException
 import feign.codec.ErrorDecoder
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpStatus
 
 class ProcessorClientConfiguration {
 
     @Bean
     fun customErrorDecoder(): ErrorDecoder {
         return ErrorDecoder { _, response ->
-            val message: String
-            try {
-                val bodyInputStream = response.body().asInputStream()
-                val apiException = ObjectMapper().readValue<ApiException>(bodyInputStream)
-                message = apiException.message
+            if (response.status() == 503) {
+                throw ProcessorException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Processor module does not respond to requests")
             }
-            catch (_: Exception) {
-                throw ProcessorException(null)
-            }
-            throw ProcessorException(message)
+            val problemDetail = response.getProblemDetail()
+            throw ProcessorException(problemDetail.status, problemDetail.detail)
         }
     }
 }
