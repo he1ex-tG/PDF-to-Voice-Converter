@@ -1,11 +1,12 @@
 package com.iface.user.exception
 
-import com.objects.shared.exception.ApiException
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @ControllerAdvice
 class CustomExceptionHandler : ResponseEntityExceptionHandler() {
@@ -18,14 +19,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
      * Custom exception handlers
      */
     @ExceptionHandler(ProcessorException::class)
-    fun handlerConverterApiException(ex: ProcessorException, redirectAttributes: RedirectAttributes): String {
-        val e = ApiException(
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            message = "Processor module raised an exception",
-            debugMessage = ex.message ?: "No debug message"
-        )
-        redirectAttributes.addFlashAttribute("apiException", e)
-        return "redirect:/"
+    fun handlerProcessorException(ex: ProcessorException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.INTERNAL_SERVER_ERROR
+        val defaultDetail = ex.localizedMessage
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
     }
-
 }
