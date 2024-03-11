@@ -3,10 +3,10 @@ package com.processor.feign
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.processor.exception.ConverterApiException
-import com.processor.exception.ConverterApiNotAvailable
 import feign.Response
 import feign.codec.ErrorDecoder
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail
 
 class ConverterApiClientConfiguration {
@@ -15,7 +15,7 @@ class ConverterApiClientConfiguration {
     fun customErrorDecoder(): ErrorDecoder {
         return ErrorDecoder { _, response ->
             if (response.status() == 503) {
-                throw ConverterApiNotAvailable()
+                throw ConverterApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Converter Api module does not respond to requests")
             }
             val problemDetail = getProblemDetail(response)
             throw ConverterApiException(problemDetail.status, problemDetail.detail)
