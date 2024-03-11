@@ -36,8 +36,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(ConverterApiException::class)
     fun handlerConverterApiException(ex: ConverterApiException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
-        val defaultDetail = "Converter Api module failed with details: ${ex.message ?: "No details"} " +
-                "(HttpStatus = ${ex.status ?: "Unknown"})"
+        val defaultDetail = ex.localizedMessage
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
@@ -46,8 +45,7 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(DataStorageException::class)
     fun handlerDataStorageException(ex: DataStorageException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
-        val defaultDetail = "Data Storage module failed with details: ${ex.message ?: "No details"} " +
-                "(HttpStatus = ${ex.status ?: "Unknown"})"
+        val defaultDetail = ex.localizedMessage
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
