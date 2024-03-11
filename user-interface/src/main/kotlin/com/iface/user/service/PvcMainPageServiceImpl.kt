@@ -15,7 +15,7 @@ class PvcMainPageServiceImpl(
     }
 
     override fun setFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
-        return processorClient.setFile(pvcFileDto)
+        return processorClient.addFile(pvcFileDto)
     }
 
     override fun getFile(id: String): PvcFileDto {
