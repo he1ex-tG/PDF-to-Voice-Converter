@@ -1,29 +1,70 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
     <head>
-        <title>Converter: PDF to MP3 - UI</title>
+        <meta charset="UTF-8">
+        <title>PDF to Voice Converter</title>
+        <style>
+            body {
+                background-color: lightgreen;
+                color: white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .login-user {
+                font-size: 24px;
+                text-align: right;
+            }
+            .main-title {
+                font-size: 96px;
+            }
+            .main-form {
+                font-size: 48px;
+            }
+            .custom-submit {
+                font-size: 48px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 10px 0px 50px 0px;
+            }
+            .custom-input {
+                font-size: 48px;
+                border: 1px solid white;
+                color: white;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 50px 0px 20px 0px;
+            }
+            .download-list {
+                margin: 5px;
+            }
+            .download-link {
+                color: white;
+                font-size: 48px;
+                text-decoration: none;
+            }
+        </style>
     </head>
     <body>
-        <h1>Converter: PDF to MP3 - UI for USER: <span th:text="${username}">No user</span></h1>
-        <div th:if="${apiException}">
+        <div class="login-user" th:text="'User: ' + (${username} ?: 'UNKNOWN')">No user</div>
+        <div class="main-title">PDF to Voice Converter</div>
+        <form class="main-form" method="post" enctype="multipart/form-data" th:object="${pvcIncomeData}">
             <div>
-                <span th:text="'Operation fails with exception message: ' + ${apiException.message}">Exception message</span>
+                <input class="custom-input" type="file" th:field="*{file}" th:value="${file}"/>
+                <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}"> error</span>
             </div>
             <div>
-                <span th:text="'and debug message: ' + ${apiException.debugMessage}">Debug message</span>
-            </div>
-        </div>
-        <form method="post" enctype="multipart/form-data" th:object="${pvcIncomeData}">
-            <div>
-                <input type="file" th:field="*{file}" th:value="${file}">
-                <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}">File error</span>
-            </div>
-            <div>
-                <button>Submit</button>
+                <button class="custom-submit" type="submit">Convert</button>
             </div>
         </form>
-        <div th:each="fileList : ${fileList}">
-            <a th:href="@{'/download/' + ${fileList.id}}" th:text="${fileList.filename}"></a>
+        <div th:if="${#lists.size(fileList.size) > 0}">
+            <div class="download-list" th:text="You files:"></div>
+            <div class="download-list" th:each="fileList : ${fileList}">
+                <a class="download-link" th:href="@{'/download/' + ${fileList.id}}" th:text="${fileList.filename}"></a>
+            </div>
         </div>
     </body>
 </html>
