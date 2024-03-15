@@ -11,7 +11,7 @@ class ProcessorClientConfiguration {
     fun customErrorDecoder(): ErrorDecoder {
         return ErrorDecoder { _, response ->
             if (response.status() == 503) {
-                throw ProcessorException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Processor module does not respond to requests")
+                throw ProcessorException(HttpStatus.SERVICE_UNAVAILABLE.value(), "Processor module does not respond to requests")
             }
             val problemDetail = response.getProblemDetail()
             throw ProcessorException(problemDetail.status, problemDetail.detail)
