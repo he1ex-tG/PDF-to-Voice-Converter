@@ -9,9 +9,15 @@
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
-            marign-top: 200px;
+            margin-top: 50px;
         }
-        .error-code {
+        .error-info {
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 50px;
+        }
+        .error-status {
             font-size: 96px;
         }
         .error-message {
@@ -21,26 +27,22 @@
             font-size: 48px;
         }
         .home-link {
+            color: white;
             font-size: 48px;
             text-decoration: none;
-        }
-        .div-block {
-            padding: 50px;
         }
     </style>
 </head>
 <body>
-    <div class="div-block">
-        <div class="error-title">PDF to Voice converter service got an error!</div>
+    <div class="error-title">Service got an error!</div>
+    <div class="error-info">
+        <div th:if="${status}">
+            <div class="error-status" th:text="${status}"></div>
+        </div>
+        <div th:if="${message}">
+            <div class="error-message" th:text="${message}"></div>
+        </div>
     </div>
-    <div th:if="${errorCode}">
-        <div class="error-code" th:text="${errorCode}"></div>
-    </div>
-    <div th:if="${errorMessage}">
-        <div class="error-message" th:text="${errorMessage}"></div>
-    </div>
-    <div class="div-block">
-        <a class="home-link" th:href="@{/}">Return to home page</a>
-    </div>
+    <a class="home-link" th:href="@{/}">Return to home page</a>
 </body>
 </html>
