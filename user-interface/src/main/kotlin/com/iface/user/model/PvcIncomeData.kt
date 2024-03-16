@@ -4,6 +4,6 @@ import com.iface.user.validation.MultipartFileConstraint
 import org.springframework.web.multipart.MultipartFile
 
 class PvcIncomeData {
-    @field:MultipartFileConstraint(message = "File invalid")
+    @field:MultipartFileConstraint
     var file: MultipartFile? = null
 }
