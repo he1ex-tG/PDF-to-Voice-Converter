@@ -29,8 +29,7 @@ class PvcMainPageController(
 
     @ModelAttribute(name = "fileList")
     fun listUserFiles(): List<PvcFileInfoDto> {
-        //return pvcMainPageService.getFilesList()
-        return listOf(PvcFileInfoDto("id1", "filename1"), PvcFileInfoDto("id2", "filename2"))
+        return pvcMainPageService.getFilesList()
     }
 
     @GetMapping
