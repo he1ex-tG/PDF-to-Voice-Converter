@@ -32,14 +32,29 @@
             .custom-input {
                 font-size: 48px;
                 border: 1px solid white;
+                padding: 2px;
+                border-radius: 10px;
                 color: white;
                 cursor: pointer;
                 text-decoration: none;
                 display: inline-block;
-                margin: 50px 0px 20px 0px;
+                margin: 50px 0px 0px 0px;
+            }
+            .error-message, .error-whitespace {
+                font-size: 24px;
+                margin: 5px 0px 10px 0px;
+            }
+            .error-message {
+                color: red;
+            }
+            .error-whitespace {
+                color: lightgreen;
+                user-select: none;
             }
             .download-list {
-                margin: 5px;
+                color: white;
+                font-size: 48px;
+                margin: 0px 0px 5px 0px;
             }
             .download-link {
                 color: white;
@@ -54,14 +69,15 @@
         <form class="main-form" method="post" enctype="multipart/form-data" th:object="${pvcIncomeData}">
             <div>
                 <input class="custom-input" type="file" th:field="*{file}" th:value="${file}"/>
-                <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}"> error</span>
+                <div class="error-whitespace" th:if="${not #fields.hasErrors('file')}" th:text="'_'">error whitespace</div>
+                <div class="error-message" th:if="${#fields.hasErrors('file')}" th:errors="*{file}">error</div>
             </div>
             <div>
                 <button class="custom-submit" type="submit">Convert</button>
             </div>
         </form>
-        <div th:if="${#lists.size(fileList.size) > 0}">
-            <div class="download-list" th:text="You files:"></div>
+        <div th:if="${not #lists.isEmpty(fileList)}">
+            <div class="download-list" th:text="'Download links:'"></div>
             <div class="download-list" th:each="fileList : ${fileList}">
                 <a class="download-link" th:href="@{'/download/' + ${fileList.id}}" th:text="${fileList.filename}"></a>
             </div>
