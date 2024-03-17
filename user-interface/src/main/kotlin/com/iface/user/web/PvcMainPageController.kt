@@ -29,7 +29,7 @@ class PvcMainPageController(
 
     @ModelAttribute(name = "fileList")
     fun listUserFiles(): List<PvcFileInfoDto> {
-        return pvcMainPageService.getFilesList()
+        return pvcMainPageService.getFilesList().sortedByDescending(PvcFileInfoDto::id)
     }
 
     @GetMapping
