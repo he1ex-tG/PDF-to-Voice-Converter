@@ -44,3 +44,4 @@ bin/
 
 ### MongoDB ###
 /data-storage/src/main/resources/application-mongodb.yml
+/user-interface/src/main/resources/application-oauth2.yml
