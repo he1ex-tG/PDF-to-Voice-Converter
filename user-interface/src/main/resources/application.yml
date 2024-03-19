@@ -6,6 +6,9 @@ server:
     whitelabel:
       enabled: false
 spring:
+  profiles:
+    include:
+      - oauth2
   application:
     name: USER-INTERFACE
 eureka:
