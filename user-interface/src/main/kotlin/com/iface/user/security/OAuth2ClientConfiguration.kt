@@ -15,7 +15,7 @@ class OAuth2ClientConfiguration {
     lateinit var oauth2: Map<String, String>
 
     @Bean
-    open fun clientRegistrationRepository(): ClientRegistrationRepository {
+    fun clientRegistrationRepository(): ClientRegistrationRepository {
         return InMemoryClientRegistrationRepository(googleClientRegistration())
     }
 
