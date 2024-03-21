@@ -19,6 +19,8 @@ class SecurityConfig {
                 authorize(HttpMethod.GET, "/**", hasAuthority("SCOPE_user"))
                 authorize(HttpMethod.POST, "/**", hasAuthority("SCOPE_user"))
             }
+            oauth2Login {
+            }
             oauth2Client {
             }
         }
