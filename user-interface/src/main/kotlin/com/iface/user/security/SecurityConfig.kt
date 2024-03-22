@@ -20,8 +20,7 @@ class SecurityConfig {
                 authorize(HttpMethod.POST, "/**", hasAuthority("SCOPE_user"))
             }
             oauth2Login {
-            }
-            oauth2Client {
+                loginPage = "/oauth2/authorization/github"
             }
         }
         return http.build()

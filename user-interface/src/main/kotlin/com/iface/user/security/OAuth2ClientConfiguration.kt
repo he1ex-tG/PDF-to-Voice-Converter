@@ -16,10 +16,10 @@ class OAuth2ClientConfiguration {
 
     @Bean
     fun clientRegistrationRepository(): ClientRegistrationRepository {
-        return InMemoryClientRegistrationRepository(googleClientRegistration())
+        return InMemoryClientRegistrationRepository(githubClientRegistration())
     }
 
-    private fun googleClientRegistration(): ClientRegistration {
+    private fun githubClientRegistration(): ClientRegistration {
         return CommonOAuth2Provider.GITHUB.getBuilder("github")
             .clientId(oauth2["clientId"])
             .clientSecret(oauth2["clientSecret"])
