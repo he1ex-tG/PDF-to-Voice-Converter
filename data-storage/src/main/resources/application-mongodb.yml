@@ -3,5 +3,6 @@ spring:
     mongodb:
       host: 185.225.68.232
       port: 29003
+      database: PDF_to_Voice_Converter
       username: pvcMainUser
       password: pvcMainUserPwd

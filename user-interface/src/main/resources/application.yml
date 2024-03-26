@@ -8,15 +8,8 @@ server:
 spring:
   profiles:
     include:
+      - eureka
+      - pvc
       - oauth2
   application:
     name: USER-INTERFACE
-eureka:
-  instance:
-    hostname: localhost:7025
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}/eureka
-pvc:
-  processor:
-    apiPath: /api/v1
