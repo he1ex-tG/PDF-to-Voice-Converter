@@ -16,11 +16,14 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             authorizeRequests {
-                authorize(HttpMethod.GET, "/**", hasAuthority("SCOPE_user"))
-                authorize(HttpMethod.POST, "/**", hasAuthority("SCOPE_user"))
+                authorize(HttpMethod.GET,"/error", permitAll)
+                authorize(HttpMethod.GET,"/login", permitAll)
+                authorize(HttpMethod.GET,"/**", hasAuthority("SCOPE_user"))
+                authorize(HttpMethod.POST,"/**", hasAuthority("SCOPE_user"))
             }
             oauth2Login {
-                loginPage = "/oauth2/authorization/github"
+                loginPage = "/login"
+                defaultSuccessUrl("/", true)
             }
         }
         return http.build()
