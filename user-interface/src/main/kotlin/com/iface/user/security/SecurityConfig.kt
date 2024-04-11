@@ -17,12 +17,10 @@ class SecurityConfig {
         http {
             authorizeRequests {
                 authorize(HttpMethod.GET,"/error", permitAll)
-                authorize(HttpMethod.GET,"/login", permitAll)
                 authorize(HttpMethod.GET,"/**", hasAuthority("SCOPE_user"))
                 authorize(HttpMethod.POST,"/**", hasAuthority("SCOPE_user"))
             }
             oauth2Login {
-                loginPage = "/login"
                 defaultSuccessUrl("/", true)
             }
         }
