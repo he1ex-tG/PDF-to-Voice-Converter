@@ -62,10 +62,12 @@ class AuthServerConfig {
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://localhost:7010/login/oauth2/code/pvc-client")
-            .scope("user:read")
-            .scope("user:write")
-            .scope(OidcScopes.OPENID)
+            .redirectUri("http://localhost:7010/login/oauth2/code/user-client")
+            .scopes {
+                it.add("user:read")
+                it.add("user:write")
+                it.add(OidcScopes.OPENID)
+            }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build()
     }
