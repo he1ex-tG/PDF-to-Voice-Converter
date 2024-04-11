@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
 
 @Configuration
-@ConfigurationProperties(prefix = "pvc")
+@ConfigurationProperties(prefix = "pvc.ui")
 class OAuth2ClientConfiguration {
 
     lateinit var oauth2: Map<String, String>
