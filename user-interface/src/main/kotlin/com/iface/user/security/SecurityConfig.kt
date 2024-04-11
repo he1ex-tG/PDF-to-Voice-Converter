@@ -17,8 +17,8 @@ class SecurityConfig {
         http {
             authorizeRequests {
                 authorize(HttpMethod.GET,"/error", permitAll)
-                authorize(HttpMethod.GET,"/**", hasAuthority("SCOPE_user"))
-                authorize(HttpMethod.POST,"/**", hasAuthority("SCOPE_user"))
+                authorize(HttpMethod.GET,"/**", hasAuthority("SCOPE_user:read"))
+                authorize(HttpMethod.POST,"/**", hasAuthority("SCOPE_user:write"))
             }
             oauth2Login {
                 defaultSuccessUrl("/", true)
