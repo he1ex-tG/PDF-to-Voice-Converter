@@ -1,0 +1,8 @@
+server:
+  port: 7020
+spring:
+  profiles:
+    include:
+      - eureka
+  application:
+    name: AUTH-SERVER
