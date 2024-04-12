@@ -7,10 +7,9 @@ import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered
-import org.springframework.core.annotation.Order
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.invoke
+import org.springframework.security.core.userdetails.User
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.core.oidc.OidcScopes
@@ -19,32 +18,27 @@ import org.springframework.security.oauth2.server.authorization.client.InMemoryR
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
-import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.util.*
 
-@Configuration(proxyBeanMethods = false)
-class AuthServerConfig {
+
+@Configuration
+class AuthorizationServerConfig {
 
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
-
-        // Enable OpenID Connect 1.0 support
-        http.getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
-            .oidc { }
-
-        http {
-            formLogin { }
-        }
-        return http.build()
+    fun userDetailsService(): UserDetailsService {
+        val userDetails: UserDetails = User.withDefaultPasswordEncoder()
+            .username("user")
+            .password("password")
+            .roles("USER")
+            .build()
+        return InMemoryUserDetailsManager(userDetails)
     }
 
     @Bean
@@ -63,6 +57,7 @@ class AuthServerConfig {
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
             .redirectUri("http://localhost:7010/login/oauth2/code/user-client")
+            .postLogoutRedirectUri("http://localhost:7010/")
             .scopes {
                 it.add("user:read")
                 it.add("user:write")
