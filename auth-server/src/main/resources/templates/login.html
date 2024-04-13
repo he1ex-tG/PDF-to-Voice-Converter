@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>PDF to Voice Converter Login</title>
+        <style>
+            body {
+                background-color: lightgreen;
+                color: white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .main-title {
+                font-size: 96px;
+            }
+            .main-form {
+                font-size: 48px;
+                margin: 30px 0px 0px 0px;
+            }
+            .custom-submit {
+                font-size: 48px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 10px 0px 50px 0px;
+            }
+            .custom-input {
+                font-size: 48px;
+                border: 1px solid white;
+                padding: 2px;
+                border-radius: 10px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 20px 0px 0px 0px;
+            }
+            .error-message, .error-whitespace {
+                font-size: 24px;
+                margin: 10px 0px 10px 0px;
+            }
+            .error-message {
+                color: red;
+            }
+            .error-whitespace {
+                color: lightgreen;
+                user-select: none;
+            }
+            .registration {
+                font-size: 24px;
+            }
+            .registration-link {
+                color: white;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-title">PDF to Voice Converter</div>
+        <form class="main-form" method="post" th:action="@{/login}">
+            <div>
+                Login Form
+            </div>
+            <div>
+                <input class="custom-input" type="text" th:name="username" th:id="username"  th:placeholder="username" th:value="${newUsername}" required autofocus/></br>
+                <input class="custom-input" type="password" th:name="password" th:id="password" th:placeholder="password" required/></br>
+            </div>
+            <div class="error-whitespace" th:if="${param.error == null}" th:text="'_'">
+                error whitespace
+            </div>
+            <div class="error-message" th:if="${param.error}" th:text="'You have entered an invalid username or password'">
+                error
+            </div>
+            <div>
+                <input class="custom-submit" type="submit" value="Login">
+            </div>
+            <div class="registration">
+                Don't have an account? <a class="registration-link" th:href="@{/registration}">Signup</a>.
+            </div>
+        </form>
+    </body>
+</html>

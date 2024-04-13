@@ -43,9 +43,12 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             authorizeRequests {
+                authorize("/login", permitAll)
                 authorize(anyRequest, authenticated)
             }
-            formLogin {  }
+            formLogin {
+                loginPage = "/login"
+            }
         }
         return http.build()
     }
