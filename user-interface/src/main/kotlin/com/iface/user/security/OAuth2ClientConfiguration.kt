@@ -1,10 +1,8 @@
 package com.iface.user.security
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.oauth2.client.CommonOAuth2Provider
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository
@@ -14,11 +12,12 @@ import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames
 import org.springframework.security.oauth2.core.oidc.OidcScopes
 
 @Configuration
-//@ConfigurationProperties(prefix = "pvc.ui")
 class OAuth2ClientConfiguration {
 
-    @Value("\${pvc.ui}")
-    lateinit var oauth2: Map<String, String>
+    @Value("\${pvc.ui.oauth2Client.clientId}")
+    lateinit var clientId: String
+    @Value("\${pvc.ui.oauth2Client.clientSecret}")
+    lateinit var clientSecret: String
     @Value("\${spring.application.name}")
     lateinit var appName: String
 
@@ -29,8 +28,8 @@ class OAuth2ClientConfiguration {
 
     private fun pvcUserClientRegistration(): ClientRegistration {
         return ClientRegistration.withRegistrationId(appName)
-            .clientId(oauth2["clientId"])
-            .clientSecret(oauth2["clientSecret"])
+            .clientId(clientId)
+            .clientSecret(clientSecret)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .redirectUri("http://localhost:7010/login/oauth2/code/user-client")
