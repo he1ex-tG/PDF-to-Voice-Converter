@@ -1,0 +1,5 @@
+pvc:
+  ui:
+    oauth2Client:
+      clientId: user-client
+      clientSecret: user-client-password
