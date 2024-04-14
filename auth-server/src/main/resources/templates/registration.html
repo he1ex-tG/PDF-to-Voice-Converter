@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>PDF to Voice Converter Registration</title>
+        <style>
+            body {
+                background-color: lightgreen;
+                color: white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .main-title {
+                font-size: 96px;
+            }
+            .main-form {
+                font-size: 48px;
+                margin: 30px 0px 0px 0px;
+            }
+            .custom-submit {
+                font-size: 48px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 10px 0px 15px 0px;
+            }
+            .custom-input {
+                font-size: 48px;
+                border: 1px solid white;
+                padding: 2px;
+                border-radius: 10px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 20px 0px 0px 0px;
+            }
+            .error-message, .error-whitespace {
+                font-size: 24px;
+                margin: 10px 0px 10px 0px;
+            }
+            .error-message {
+                color: red;
+            }
+            .error-whitespace {
+                color: lightgreen;
+                user-select: none;
+            }
+            .sign-in {
+                font-size: 24px;
+            }
+            .sign-in-link {
+                color: white;
+                text-decoration: none;
+            }
+            .no-dots {
+                list-style-type: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-title">PDF to Voice Converter</div>
+        <form class="main-form" method="post" th:action="@{/registration}" th:object="${registrationData}">
+            <div>
+                Registration Form
+            </div>
+            <div>
+                <input class="custom-input" type="text" th:name="username" th:id="username" th:placeholder="username" th:field="*{username}" th:value="${username}" required autofocus/></br>
+                <input class="custom-input" type="text" th:name="email" th:id="email" th:placeholder="email" th:field="*{email}" th:value="${email}" required/></br>
+                <input class="custom-input" type="password" th:name="password" th:id="password" th:placeholder="password" th:field="*{password}" th:value="${password}" required/></br>
+            </div>
+            <div class="error-whitespace" th:if="${not #fields.hasAnyErrors()}" th:text="'_'">
+                error whitespace
+            </div>
+            <div class="error-message" th:if="${#fields.hasAnyErrors()}">
+                <ul class="no-dots">
+                    <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <div>
+                <input class="custom-submit" type="submit" value="Create Account">
+            </div>
+            <div class="sign-in">
+                Already have an account? <a class="sign-in-link" th:href="@{/login}">Sign in</a>.
+            </div>
+        </form>
+    </body>
+</html>
