@@ -44,6 +44,7 @@ class SecurityConfig {
         http {
             authorizeRequests {
                 authorize("/login", permitAll)
+                authorize("/registration", permitAll)
                 authorize(anyRequest, authenticated)
             }
             formLogin {
