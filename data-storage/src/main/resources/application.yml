@@ -1,10 +1,10 @@
 server:
   port: 7000
 spring:
-  application:
-    name: DATA-STORAGE
   profiles:
     include:
       - eureka
       - pvc
       - mongodb
+  application:
+    name: DATA-STORAGE

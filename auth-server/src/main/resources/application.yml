@@ -4,5 +4,6 @@ spring:
   profiles:
     include:
       - eureka
+      - pvc
   application:
     name: AUTH-SERVER

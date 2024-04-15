@@ -1,9 +1,13 @@
 pvc:
   dataStorage:
     apiPath: /api/v1
+    filesEndpoint: /files
+    usersEndpoint: /users
     localStoragePath: E:\PDF_to_Voice_Converter_storage
     localStorageSize: 2
   converterApi:
     apiPath: /api/v1
+    converterEndpoint: /converter
   processor:
     apiPath: /api/v1
+    filesEndpoint: /files

@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam
 
 interface DataStorageMainController {
 
-    @GetMapping(path = ["/files/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(path = ["\${pvc.dataStorage.filesEndpoint}/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun downloadPvcFile(@PathVariable("id") pvcFileId: String, @RequestParam pvcUserId: String): PvcFileDto
 
-    @GetMapping(path = ["/files"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(path = ["\${pvc.dataStorage.filesEndpoint}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun downloadPvcFileList(@RequestParam pvcUserId: String): List<PvcFileInfoDto>
 
     @PostMapping(
-        path = ["/files"],
+        path = ["\${pvc.dataStorage.filesEndpoint}"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
