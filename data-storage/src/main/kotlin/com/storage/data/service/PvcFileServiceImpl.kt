@@ -2,12 +2,11 @@ package com.storage.data.service
 
 import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
-import com.storage.data.configuration.PvcDataStorageConfig
 import com.storage.data.entity.PvcFile
 import com.storage.data.exception.LoadPvcFileException
 import com.storage.data.exception.SavePvcFileException
 import com.storage.data.repository.PvcFileRepository
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -17,14 +16,17 @@ import kotlin.io.path.Path
 import kotlin.io.path.pathString
 
 @Service
-@EnableConfigurationProperties(PvcDataStorageConfig::class)
 class PvcFileServiceImpl(
-    private val pvcFileRepository: PvcFileRepository,
-    private val pvcDataStorageConfig: PvcDataStorageConfig,
+    private val pvcFileRepository: PvcFileRepository
 ) : PvcFileService {
 
+    @Value("\${pvc.dataStorage.localStoragePath}")
+    lateinit var localStoragePath: String
+    @Value("\${pvc.dataStorage.localStorageSize}")
+    lateinit var localStorageSize: String
+
     private fun filePathBuilder(filename: String): Path {
-        val localStoragePath = Path(pvcDataStorageConfig.localStoragePath, filename)
+        val localStoragePath = Path(localStoragePath, filename)
         if (!Files.isDirectory(localStoragePath.parent)) {
             Files.createDirectories(localStoragePath.parent)
         }
@@ -32,7 +34,7 @@ class PvcFileServiceImpl(
     }
 
     private fun deleteOverageFiles(pvcUserId: String) {
-        val localStorageSize = pvcDataStorageConfig.localStorageSize.toInt()
+        val localStorageSize = localStorageSize.toInt()
         val userFiles = pvcFileRepository.findAllByPvcUserId(pvcUserId).sortedByDescending(PvcFile::dateTime)
         for (index in localStorageSize until userFiles.count()) {
             deletePvcFile(userFiles.elementAt(index).id!!, pvcUserId)
