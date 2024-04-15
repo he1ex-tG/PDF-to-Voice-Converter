@@ -1,5 +1,5 @@
 server:
-  port: 7020
+  port: ${pvc.authServer.port}
 spring:
   profiles:
     include:

@@ -11,3 +11,6 @@ pvc:
   processor:
     apiVersion: 1
     filesEndpoint: /files
+  authServer:
+    address: http://authserver
+    port: 7020
