@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import java.util.UUID
 
-@WebMvcTest(controllers = [DataStorageMainControllerImpl::class])
+@WebMvcTest(controllers = [DataStorageFileControllerImpl::class])
 class ConverterApiMainControllerTest {
 
     @Autowired
