@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 
-interface DataStorageMainController {
+interface DataStorageFileController {
 
     @GetMapping(path = ["\${pvc.dataStorage.filesEndpoint}/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun downloadPvcFile(@PathVariable("id") pvcFileId: String, @RequestParam pvcUserId: String): PvcFileDto

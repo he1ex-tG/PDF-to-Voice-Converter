@@ -1,6 +1,6 @@
 package com.storage.data.controller
 
-import com.objects.shared.controller.DataStorageMainController
+import com.objects.shared.controller.DataStorageFileController
 import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
 import com.storage.data.service.PvcFileService
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(path = ["api/v1"])
-class DataStorageMainControllerImpl(
+class DataStorageFileControllerImpl(
     private val pvcFileService: PvcFileService
-) : DataStorageMainController {
+) : DataStorageFileController {
 
     @ResponseStatus(value = HttpStatus.OK)
     override fun downloadPvcFile(pvcFileId: String, pvcUserId: String): PvcFileDto = pvcFileService.loadPvcFile(pvcFileId, pvcUserId)
