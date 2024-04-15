@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient
 
 @FeignClient(
     name = "PROCESSOR",
-    path = "\${pvc.processor.apiPath}",
+    path = "/api/v\${pvc.processor.apiVersion}",
     configuration = [ProcessorClientConfiguration::class]
 )
 interface ProcessorClient : ProcessorMainController
