@@ -8,3 +8,6 @@ spring:
       - mongodb
   application:
     name: DATA-STORAGE
+  data:
+    mongodb:
+      auto-index-creation: true
