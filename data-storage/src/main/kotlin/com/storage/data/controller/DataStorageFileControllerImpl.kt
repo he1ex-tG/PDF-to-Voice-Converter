@@ -16,11 +16,14 @@ class DataStorageFileControllerImpl(
 ) : DataStorageFileController {
 
     @ResponseStatus(value = HttpStatus.OK)
-    override fun downloadPvcFile(pvcFileId: String, pvcUserId: String): PvcFileDto = pvcFileService.loadPvcFile(pvcFileId, pvcUserId)
+    override fun downloadPvcFile(pvcUserId: String, pvcFileId: String): PvcFileDto =
+        pvcFileService.loadPvcFile(pvcUserId, pvcFileId)
 
     @ResponseStatus(value = HttpStatus.OK)
-    override fun downloadPvcFileList(pvcUserId: String): List<PvcFileInfoDto> = pvcFileService.getPvcFileList(pvcUserId)
+    override fun downloadPvcFileList(pvcUserId: String): List<PvcFileInfoDto> =
+        pvcFileService.getPvcFileList(pvcUserId)
 
     @ResponseStatus(value = HttpStatus.CREATED)
-    override fun uploadPvcFile(pvcFile: PvcFileDto, pvcUserId: String): PvcFileInfoDto = pvcFileService.savePvcFile(pvcFile, pvcUserId)
+    override fun uploadPvcFile(pvcUserId: String, pvcFile: PvcFileDto): PvcFileInfoDto =
+        pvcFileService.savePvcFile(pvcUserId, pvcFile)
 }
