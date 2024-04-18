@@ -6,12 +6,12 @@ import com.objects.shared.dto.PvcFileInfoDto
 
 interface PvcFileService {
 
-    fun savePvcFile(pvcFileDto: PvcFileDto, pvcUserId: String): PvcFileInfoDto
+    fun savePvcFile(pvcUserId: String, pvcFileDto: PvcFileDto): PvcFileInfoDto
 
-    fun loadPvcFile(pvcFileId: String, pvcUserId: String): PvcFileDto
+    fun loadPvcFile(pvcUserId: String, pvcFileId: String): PvcFileDto
 
     fun getPvcFileList(pvcUserId: String): List<PvcFileInfoDto>
 
-    fun deletePvcFile(pvcFileId: String, pvcUserId: String)
+    fun deletePvcFile(pvcUserId: String, pvcFileId: String)
 
 }

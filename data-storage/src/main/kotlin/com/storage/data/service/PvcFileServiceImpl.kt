@@ -41,7 +41,7 @@ class PvcFileServiceImpl(
         }
     }
 
-    override fun savePvcFile(pvcFileDto: PvcFileDto, pvcUserId: String): PvcFileInfoDto {
+    override fun savePvcFile(pvcUserId: String, pvcFileDto: PvcFileDto): PvcFileInfoDto {
         val pvcFile = pvcFileRepository.save(PvcFile(pvcFileDto, pvcUserId))
         try {
             val fileOutputStream = FileOutputStream(filePathBuilder(pvcFile.id!!).pathString)
@@ -57,7 +57,7 @@ class PvcFileServiceImpl(
         }
     }
 
-    override fun loadPvcFile(pvcFileId: String, pvcUserId: String): PvcFileDto {
+    override fun loadPvcFile(pvcUserId: String, pvcFileId: String): PvcFileDto {
         val pvcFileOptional = pvcFileRepository.findByIdAndPvcUserId(pvcFileId, pvcUserId)
         try {
             val pvcFile = pvcFileOptional.get()
@@ -78,7 +78,7 @@ class PvcFileServiceImpl(
             }
     }
 
-    override fun deletePvcFile(pvcFileId: String, pvcUserId: String) {
+    override fun deletePvcFile(pvcUserId: String, pvcFileId: String) {
         try {
             Files.deleteIfExists(filePathBuilder(pvcFileId))
         }
