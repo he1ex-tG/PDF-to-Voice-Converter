@@ -27,31 +27,44 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             authorizeRequests {
+                /*
+                Files GET requests. Url like:
+                    http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files
+                    http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files/zzfilezz11337htg755zz
+                */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.GET,
-                        "/api/v[0-9]+$filesEndpoint/.+"
+                        HttpMethod.GET, "^/api/v[0-9]+$usersEndpoint/[0-9a-z]+$filesEndpoint(/[0-9a-z]+)?$"
                     ),
                     hasAuthority("SCOPE_files:read")
                 )
+                /*
+                Files POST requests. Url like:
+                    http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files
+                 */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.POST,
-                        "/api/v[0-9]+$filesEndpoint/.+"
+                        HttpMethod.POST, "^/api/v[0-9]+$usersEndpoint/[0-9a-z]+$filesEndpoint$"
                     ),
                     hasAuthority("SCOPE_files:write")
                 )
+                /*
+                User by username GET requests. Url like:
+                    http://localhost:7010/api/v1/users/aa_USER_aa11337-HTG-755aa
+                 */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.GET,
-                        "/api/v[0-9]+$usersEndpoint/.+"
+                        HttpMethod.GET, "^/api/v[0-9]+$usersEndpoint/[0-9A-Za-z_-]+$"
                     ),
                     hasAuthority("SCOPE_users:read")
                 )
+                /*
+                User POST requests. Url like:
+                    http://localhost:7010/api/v1/users
+                 */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.POST,
-                        "/api/v[0-9]+$usersEndpoint/.+"
+                        HttpMethod.POST, "^/api/v[0-9]+$usersEndpoint$"
                     ),
                     hasAuthority("SCOPE_users:write")
                 )
