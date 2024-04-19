@@ -2,11 +2,13 @@ package com.server.auth.model
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 
 class UserRegistrationData(
     @field:NotEmpty(message = "{registration.username.required}")
     @field:Size(min = 2, max = 21, message = "{registration.username.size}")
+    @field:Pattern(regexp = "^[0-9A-Za-z_-]+$", message = "{registration.username.pattern}")
     var username: String = "",
     @field:NotEmpty(message = "{registration.email.required}")
     @field:Email(message = "{registration.email.pattern}")
