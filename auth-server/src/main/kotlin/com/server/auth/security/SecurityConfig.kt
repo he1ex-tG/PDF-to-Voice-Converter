@@ -34,6 +34,7 @@ class SecurityConfig {
             oauth2ResourceServer {
                 jwt {  }
             }
+            oauth2Client {  }
         }
         return http.build()
     }
