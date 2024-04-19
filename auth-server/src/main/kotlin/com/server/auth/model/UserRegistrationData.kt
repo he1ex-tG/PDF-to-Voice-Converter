@@ -1,5 +1,6 @@
 package com.server.auth.model
 
+import com.objects.shared.dto.PvcUserDto
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.Pattern
@@ -17,4 +18,8 @@ class UserRegistrationData(
     @field:NotEmpty(message = "{registration.password.required}")
     @field:Size(min = 5, max = 24, message = "{registration.password.size}")
     var password: String = ""
-)
+) {
+
+    fun toPvcUserDto(): PvcUserDto =
+        PvcUserDto(username, password, email)
+}
