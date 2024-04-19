@@ -5,10 +5,9 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
+import com.server.auth.service.PvcUserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
@@ -20,7 +19,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.interfaces.RSAPrivateKey
@@ -29,23 +27,20 @@ import java.util.*
 
 
 @Configuration
-class AuthorizationServerConfig {
+class AuthorizationServerConfiguration {
 
     @Bean
-    fun userDetailsService(): UserDetailsService {
-        val userDetails: UserDetails = User.withDefaultPasswordEncoder()
-            .username("user")
-            .password("password")
-            .roles("USER")
-            .build()
-        return InMemoryUserDetailsManager(userDetails)
+    fun usersDetailService(pvcUserService: PvcUserService): UserDetailsService {
+        return UserDetailsService { username ->
+            pvcUserService.authPvcUser(username)
+        }
     }
 
     @Bean
     fun registeredClientRepository(): RegisteredClientRepository {
         return InMemoryRegisteredClientRepository(
             getUserClientRegisteredClient(),
-            //getUserRegisteredClient()
+            getAuthClientRegisteredClient()
         )
     }
 
@@ -67,21 +62,23 @@ class AuthorizationServerConfig {
             .build()
     }
 
-/*
-    private fun getUserRegisteredClient(): RegisteredClient {
+    private fun getAuthClientRegisteredClient(): RegisteredClient {
         return RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("taco-user-client")
-            .clientSecret(encoder.encode("taco-user-client"))
+            .clientId("auth-client")
+            .clientSecret("{noop}auth-client-password")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://localhost:8080/login/oauth2/code/taco-user-client")
-            .scope("taco:user")
-            .scope(OidcScopes.OPENID)
+            .redirectUri("http://localhost:7020/login/oauth2/code/auth-client")
+            .postLogoutRedirectUri("http://authserver:7020/")
+            .scopes {
+                it.add("users:auth")
+                it.add("users:write")
+                it.add(OidcScopes.OPENID)
+            }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build()
     }
-*/
 
     @Bean
     fun jwkSource(): JWKSource<SecurityContext> {
@@ -111,6 +108,9 @@ class AuthorizationServerConfig {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource)
     }
 
+    /**
+     * Create Authorization Server with custom paths
+     */
     @Bean
     fun authorizationServerSettings(): AuthorizationServerSettings {
         return AuthorizationServerSettings.builder()
