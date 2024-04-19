@@ -15,7 +15,7 @@ class DataStorageUserControllerImpl(
 ) : DataStorageUserController {
 
     @ResponseStatus(value = HttpStatus.OK)
-    override fun loadPvcUser(username: String): PvcUserDto = pvcUserService.loadPvcUser(username)
+    override fun authPvcUser(username: String): PvcUserDto = pvcUserService.authPvcUser(username)
 
     @ResponseStatus(value = HttpStatus.CREATED)
     override fun savePvcUser(pvcUserDto: PvcUserDto): PvcUserDto = pvcUserService.savePvcUser(pvcUserDto)

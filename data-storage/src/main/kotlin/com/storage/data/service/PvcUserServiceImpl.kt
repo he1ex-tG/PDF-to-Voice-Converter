@@ -12,13 +12,14 @@ class PvcUserServiceImpl(
     private val pvcUserRepository: PvcUserRepository
 ) : PvcUserService {
 
-    override fun loadPvcUser(username: String): PvcUserDto {
+    override fun authPvcUser(username: String): PvcUserDto {
         val pvcUser = pvcUserRepository.findByUsername(username)
         try {
             return pvcUser.get().toPvcUserDto()
         } catch (ex: Throwable) {
-            throw LoadPvcUserException("Load user from repository function thrown an exception with message: " +
-                    "${ex.message ?: "No message"}, user with username = $username is not loaded")
+            throw LoadPvcUserException("Auth user function thrown an exception with message: " +
+                    (ex.message ?: "No message")
+            )
         }
     }
 
