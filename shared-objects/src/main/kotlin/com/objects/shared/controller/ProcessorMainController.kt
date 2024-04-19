@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody
 
 interface ProcessorMainController {
 
-    @GetMapping(path = ["\${pvc.processor.filesEndpoint}/{id}"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getFile(@PathVariable("id") id: String): PvcFileDto
+    @GetMapping(path = ["/files/{fileId}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getFile(@PathVariable("fileId") id: String): PvcFileDto
 
-    @GetMapping(path = ["\${pvc.processor.filesEndpoint}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping(path = ["/files"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getFilesList(): List<PvcFileInfoDto>
 
     @PostMapping(
-        path = ["\${pvc.processor.filesEndpoint}"],
+        path = ["/files"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )

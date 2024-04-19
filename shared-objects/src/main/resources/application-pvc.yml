@@ -1,16 +1,12 @@
 pvc:
   dataStorage:
     apiVersion: 1
-    filesEndpoint: /files
-    usersEndpoint: /users
     localStoragePath: E:\PDF_to_Voice_Converter_storage
     localStorageSize: 2
   converterApi:
     apiVersion: 1
-    converterEndpoint: /converter
   processor:
     apiVersion: 1
-    filesEndpoint: /files
   authServer:
     address: http://authserver
     port: 7020

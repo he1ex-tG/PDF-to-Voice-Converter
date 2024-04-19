@@ -12,19 +12,19 @@ import org.springframework.web.bind.annotation.RequestBody
 interface DataStorageFileController {
 
     @GetMapping(
-        path = ["\${pvc.dataStorage.usersEndpoint}/{userId}\${pvc.dataStorage.filesEndpoint}/{fileId}"],
+        path = ["/users/{userId}/files/{fileId}"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun downloadPvcFile(@PathVariable("userId") pvcUserId: String, @PathVariable("fileId") pvcFileId: String): PvcFileDto
 
     @GetMapping(
-        path = ["\${pvc.dataStorage.usersEndpoint}/{userId}\${pvc.dataStorage.filesEndpoint}"],
+        path = ["/users/{userId}/files"],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
     fun downloadPvcFileList(@PathVariable("userId") pvcUserId: String): List<PvcFileInfoDto>
 
     @PostMapping(
-        path = ["\${pvc.dataStorage.usersEndpoint}/{userId}\${pvc.dataStorage.filesEndpoint}"],
+        path = ["/users/{userId}/files"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )

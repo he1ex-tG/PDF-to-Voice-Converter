@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody
 
 interface DataStorageUserController {
 
-    @GetMapping(path = ["\${pvc.dataStorage.usersEndpoint}/{username}"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun loadPvcUser(@PathVariable("username") username: String): PvcUserDto
+    @GetMapping(path = ["/auth/{username}"], produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun authPvcUser(@PathVariable("username") username: String): PvcUserDto
 
     @PostMapping(
-        path = ["\${pvc.dataStorage.usersEndpoint}"],
+        path = ["/users"],
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )

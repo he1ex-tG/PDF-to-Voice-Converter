@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody
 interface ConverterApiMainController {
 
     @PostMapping(
-        path = ["\${pvc.converterApi.converterEndpoint}"],
+        path = ["/converter"],
         consumes = [MediaType.APPLICATION_OCTET_STREAM_VALUE],
         produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE]
     )
