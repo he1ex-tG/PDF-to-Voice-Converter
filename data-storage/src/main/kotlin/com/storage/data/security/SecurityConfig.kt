@@ -14,10 +14,6 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher
 @EnableWebSecurity
 class SecurityConfig {
 
-    @Value("\${pvc.dataStorage.filesEndpoint}")
-    lateinit var filesEndpoint: String
-    @Value("\${pvc.dataStorage.usersEndpoint}")
-    lateinit var usersEndpoint: String
     @Value("\${pvc.authServer.address}")
     lateinit var authAddress: String
     @Value("\${pvc.authServer.port}")
@@ -27,44 +23,44 @@ class SecurityConfig {
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             authorizeRequests {
-                /*
-                Files GET requests. Url like:
-                    http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files
-                    http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files/zzfilezz11337htg755zz
-                */
+                /**
+                 * Files GET requests. Url like:
+                 *  http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files
+                 *  http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files/zzfilezz11337htg755zz
+                 */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.GET, "^/api/v[0-9]+$usersEndpoint/[0-9a-z]+$filesEndpoint(/[0-9a-z]+)?$"
+                        HttpMethod.GET, "^/api/v[0-9]+/users/[0-9a-z]+/files(/[0-9a-z]+)?$"
                     ),
                     hasAuthority("SCOPE_files:read")
                 )
-                /*
-                Files POST requests. Url like:
-                    http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files
+                /**
+                 * Files POST requests. Url like:
+                 *  http://localhost:7010/api/v1/users/aauseraa11337htg755aa/files
                  */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.POST, "^/api/v[0-9]+$usersEndpoint/[0-9a-z]+$filesEndpoint$"
+                        HttpMethod.POST, "^/api/v[0-9]+/users/[0-9a-z]+/files$"
                     ),
                     hasAuthority("SCOPE_files:write")
                 )
-                /*
-                User by username GET requests. Url like:
-                    http://localhost:7010/api/v1/users/aa_USER_aa11337-HTG-755aa
+                /**
+                 * User auth GET requests. Url like:
+                 *  http://localhost:7010/api/v1/auth/aa_USER_aa11337-HTG-755aa
                  */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.GET, "^/api/v[0-9]+$usersEndpoint/[0-9A-Za-z_-]+$"
+                        HttpMethod.GET, "^/api/v[0-9]+/auth/[0-9A-Za-z_-]+$"
                     ),
-                    hasAuthority("SCOPE_users:read")
+                    hasAuthority("SCOPE_users:auth")
                 )
-                /*
-                User POST requests. Url like:
-                    http://localhost:7010/api/v1/users
+                /**
+                 * User POST requests. Url like:
+                 *  http://localhost:7010/api/v1/users
                  */
                 authorize(
                     RegexRequestMatcher.regexMatcher(
-                        HttpMethod.POST, "^/api/v[0-9]+$usersEndpoint$"
+                        HttpMethod.POST, "^/api/v[0-9]+/users$"
                     ),
                     hasAuthority("SCOPE_users:write")
                 )
