@@ -1,5 +1,10 @@
 server:
   port: ${pvc.authServer.port}
+  error:
+    path: /error
+    include-message: always
+    whitelabel:
+      enabled: false
 spring:
   profiles:
     include:

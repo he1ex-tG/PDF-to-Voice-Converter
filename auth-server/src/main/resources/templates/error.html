@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PVC Error Page</title>
+    <style>
+        body {
+            background-color: lightgreen;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .error-info {
+            display: inline-block;
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 50px;
+        }
+        .error-status {
+            font-size: 96px;
+        }
+        .error-message {
+            font-size: 48px;
+        }
+        .error-title {
+            font-size: 96px;
+        }
+        .home-link {
+            color: white;
+            font-size: 48px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-title">ERROR</div>
+    <div class="error-info">
+        <div th:if="${status}">
+            <div class="error-status" th:text="${status}"></div>
+        </div>
+        <div th:if="${message}">
+            <div class="error-message" th:text="${message}"></div>
+        </div>
+    </div>
+    <div>
+        <a class="home-link" th:href="@{/}">Return to home page</a>
+    </div>
+</body>
+</html>
