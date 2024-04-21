@@ -9,30 +9,37 @@ import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.servlet.View
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import org.springframework.web.servlet.view.InternalResourceView
+import org.springframework.web.servlet.view.RedirectView
 
 @Controller
 class WebRegistration(
     private val pvcUserService: PvcUserService
 ) {
 
+    @ModelAttribute("registrationData")
+    fun setRegistrationData(): UserRegistrationData {
+        return UserRegistrationData()
+    }
+
     @GetMapping("/registration")
     fun getRegistration(model: Model): String {
-        model.addAttribute("registrationData", UserRegistrationData())
         return "registration"
     }
 
     @PostMapping("/registration")
     fun postRegistration(
-        @Valid
-        @ModelAttribute("registrationData")
-        userRegistrationData: UserRegistrationData,
-        errors: Errors
-    ): String {
+        @Valid @ModelAttribute("registrationData") userRegistrationData: UserRegistrationData,
+        errors: Errors,
+        redirectAttributes: RedirectAttributes
+    ): View {
         if (errors.hasErrors()) {
-            return "registration"
+            return InternalResourceView("/registration")
         }
         val saveResult = pvcUserService.savePvcUser(userRegistrationData.toPvcUserDto())
-        println(saveResult.toString())
-        return "login"
+        redirectAttributes.addFlashAttribute("newUsername", saveResult.username)
+        return RedirectView("/login")
     }
 }
