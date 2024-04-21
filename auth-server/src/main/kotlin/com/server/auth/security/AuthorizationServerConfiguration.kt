@@ -72,8 +72,8 @@ class AuthorizationServerConfiguration {
             .redirectUri("http://localhost:7020/login/oauth2/code/auth-client")
             .postLogoutRedirectUri("http://authserver:7020/")
             .scopes {
-                it.add("users:auth")
-                it.add("users:write")
+                it.add("auth:auth")
+                it.add("auth:write")
                 it.add(OidcScopes.OPENID)
             }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())

@@ -52,7 +52,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.GET, "^/api/v[0-9]+/auth/[0-9A-Za-z_-]+$"
                     ),
-                    hasAuthority("SCOPE_users:auth")
+                    hasAuthority("SCOPE_auth:auth")
                 )
                 /**
                  * User POST requests. Url like:
@@ -62,7 +62,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.POST, "^/api/v[0-9]+/users$"
                     ),
-                    hasAuthority("SCOPE_users:write")
+                    hasAuthority("SCOPE_auth:write")
                 )
                 authorize(anyRequest, denyAll)
             }

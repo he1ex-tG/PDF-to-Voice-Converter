@@ -35,8 +35,8 @@ class OAuth2ClientConfiguration {
             .redirectUri("http://localhost:7020/login/oauth2/code/auth-client")
             .clientName("PVC auth-server client")
             .scope(
-                "users:auth",
-                "users:write",
+                "auth:auth",
+                "auth:write",
                 OidcScopes.OPENID
             )
             .authorizationUri("http://authserver:7020/oauth2/v1/authorize")
