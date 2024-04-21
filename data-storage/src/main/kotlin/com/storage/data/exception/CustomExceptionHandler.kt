@@ -102,9 +102,27 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
+    @ExceptionHandler(SavePvcUserDuplicateException::class)
+    fun handlerSavePvcUserDuplicateException(ex: SavePvcUserDuplicateException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.CONFLICT
+        val defaultDetail = ex.localizedMessage ?: "Save user function thrown an exception, user is not saved"
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
+    }
+
     @ExceptionHandler(LoadPvcUserException::class)
     fun handlerLoadPvcUserException(ex: LoadPvcUserException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
+        val defaultDetail = ex.localizedMessage ?: "Load user function thrown an exception, user is not loaded"
+        val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
+        val headers = HttpHeaders()
+        return handleExceptionInternal(ex, problem, headers, status, request)
+    }
+
+    @ExceptionHandler(LoadPvcUserNotFoundException::class)
+    fun handlerLoadPvcUserNotFoundException(ex: LoadPvcUserNotFoundException, request: WebRequest): ResponseEntity<Any>? {
+        val status = HttpStatus.NOT_FOUND
         val defaultDetail = ex.localizedMessage ?: "Load user function thrown an exception, user is not loaded"
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
