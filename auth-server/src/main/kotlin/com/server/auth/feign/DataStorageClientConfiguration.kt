@@ -1,9 +1,12 @@
 package com.server.auth.feign
 
+import com.server.auth.exception.DataStorageException
 import feign.codec.ErrorDecoder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.openfeign.security.OAuth2AccessTokenInterceptor
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpStatus
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager
 
 class DataStorageClientConfiguration {
@@ -14,12 +17,22 @@ class DataStorageClientConfiguration {
     @Bean
     fun customErrorDecoder(): ErrorDecoder {
         return ErrorDecoder { _, response ->
-            throw RuntimeException(response.status().toString())
-            /*if (response.status() == 503) {
-                throw DataStorageException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Data Storage module does not respond to requests")
+            when (response.status()) {
+                503 -> {
+                    throw DataStorageException(
+                        HttpStatus.SERVICE_UNAVAILABLE.value(),
+                        "Data Storage module does not respond to requests"
+                    )
+                }
+                404 -> {
+                    val problemDetail = response.getProblemDetail()
+                    throw UsernameNotFoundException(problemDetail.detail)
+                }
+                else -> {
+                    val problemDetail = response.getProblemDetail()
+                    throw DataStorageException(problemDetail.status, problemDetail.detail)
+                }
             }
-            val problemDetail = response.getProblemDetail()
-            throw DataStorageException(problemDetail.status, problemDetail.detail)*/
         }
     }
 
