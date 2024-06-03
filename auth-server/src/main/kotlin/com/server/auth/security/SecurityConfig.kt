@@ -52,6 +52,7 @@ class SecurityConfig {
             }
             formLogin {
                 loginPage = "/login"
+                authenticationFailureHandler = CustomAuthenticationFailureHandler()
             }
         }
         return http.build()
