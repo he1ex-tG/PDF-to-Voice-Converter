@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
-class WebAuthorization {
+class AuthorizationController {
 
     @GetMapping("/login")
     fun getLogin(): String {

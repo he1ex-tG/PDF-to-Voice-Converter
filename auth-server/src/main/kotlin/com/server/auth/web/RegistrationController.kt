@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.InternalResourceView
 import org.springframework.web.servlet.view.RedirectView
 
 @Controller
-class WebRegistration(
+class RegistrationController(
     private val pvcUserService: PvcUserService
 ) {
 
