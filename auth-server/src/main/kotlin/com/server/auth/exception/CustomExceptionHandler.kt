@@ -1,9 +1,11 @@
 package com.server.auth.exception
 
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.ResponseEntity
+import org.springframework.security.web.DefaultRedirectStrategy
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.context.request.ServletWebRequest
-import org.springframework.web.servlet.ModelAndView
 
 @ControllerAdvice
 class CustomExceptionHandler {
@@ -20,13 +22,10 @@ class CustomExceptionHandler {
      * Custom exception handlers
      */
     @ExceptionHandler(DataStorageException::class)
-    fun handlerDataStorageException(ex: DataStorageException, request: ServletWebRequest): ModelAndView {
-        val issuerUri = request.request.requestURI
-        return ModelAndView().apply {
-            viewName = "error"
-            addObject("status", ex.status ?: "No status")
-            addObject("message", ex.message ?: "No message")
-            addObject("issuerUri", issuerUri ?: "/")
-        }
+    fun handlerDataStorageException(ex: DataStorageException, request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Any>? {
+        request.session.setAttribute("EXCEPTION_HANDLER_LAST_EXCEPTION", ex)
+        val defaultRedirectStrategy = DefaultRedirectStrategy()
+        defaultRedirectStrategy.sendRedirect(request, response, "/error")
+        return null
     }
 }
