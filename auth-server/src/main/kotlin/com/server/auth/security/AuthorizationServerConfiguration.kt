@@ -5,10 +5,8 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
-import com.server.auth.service.PvcUserService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.core.oidc.OidcScopes
@@ -25,16 +23,8 @@ import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.util.*
 
-
 @Configuration
 class AuthorizationServerConfiguration {
-
-    @Bean
-    fun usersDetailService(pvcUserService: PvcUserService): UserDetailsService {
-        return UserDetailsService { username ->
-            pvcUserService.authPvcUser(username)
-        }
-    }
 
     @Bean
     fun registeredClientRepository(): RegisteredClientRepository {
