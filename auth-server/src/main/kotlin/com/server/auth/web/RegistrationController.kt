@@ -9,10 +9,7 @@ import org.springframework.validation.Errors
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.servlet.View
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import org.springframework.web.servlet.view.InternalResourceView
-import org.springframework.web.servlet.view.RedirectView
 
 @Controller
 class RegistrationController(
@@ -34,12 +31,12 @@ class RegistrationController(
         @Valid @ModelAttribute("registrationData") userRegistrationData: UserRegistrationData,
         errors: Errors,
         redirectAttributes: RedirectAttributes
-    ): View {
+    ): String {
         if (errors.hasErrors()) {
-            return InternalResourceView("/registration")
+            return "registration"
         }
         val saveResult = pvcUserService.savePvcUser(userRegistrationData.toPvcUserDto())
         redirectAttributes.addFlashAttribute("newUsername", saveResult.username)
-        return RedirectView("/login")
+        return "redirect:login"
     }
 }
