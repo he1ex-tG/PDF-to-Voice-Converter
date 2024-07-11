@@ -1,5 +1,6 @@
 package com.storage.data.service
 
+/*
 import com.mongodb.MongoException
 import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
@@ -162,4 +163,4 @@ object MockitoHelper {
     }
     @Suppress("UNCHECKED_CAST")
     fun <T> uninitialized(): T = null as T
-}
+}*/
