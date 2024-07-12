@@ -20,6 +20,10 @@ class OAuth2ClientConfiguration {
     lateinit var clientSecret: String
     @Value("\${spring.application.name}")
     lateinit var appName: String
+    @Value("\${pvc.authServer.address}")
+    lateinit var authAddress: String
+    @Value("\${pvc.authServer.port}")
+    lateinit var authPort: String
 
     @Bean
     fun clientRegistrationRepository(): ClientRegistrationRepository {
@@ -39,10 +43,10 @@ class OAuth2ClientConfiguration {
                 "auth:write",
                 OidcScopes.OPENID
             )
-            .authorizationUri("http://authserver:7020/oauth2/v1/authorize")
-            .tokenUri("http://authserver:7020/oauth2/v1/token")
-            .userInfoUri("http://authserver:7020/connect/v1/userinfo")
-            .jwkSetUri("http://authserver:7020/oauth2/v1/jwks")
+            .authorizationUri("$authAddress:$authPort/oauth2/v1/authorize")
+            .tokenUri("$authAddress:$authPort/oauth2/v1/token")
+            .userInfoUri("$authAddress:$authPort/connect/v1/userinfo")
+            .jwkSetUri("$authAddress:$authPort/oauth2/v1/jwks")
             .userNameAttributeName(IdTokenClaimNames.SUB)
             .build()
     }
