@@ -1,0 +1,5 @@
+pvc:
+  processor:
+    oauth2Client:
+      clientId: processor-client
+      clientSecret: processor-client-password
