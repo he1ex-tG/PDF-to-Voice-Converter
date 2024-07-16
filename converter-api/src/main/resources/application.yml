@@ -6,4 +6,4 @@ spring:
       - eureka
       - pvc
   application:
-    name: CONVERTER-API
+    name: ${pvc.converterApi.appName}

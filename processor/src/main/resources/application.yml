@@ -5,6 +5,5 @@ spring:
     include:
       - eureka
       - pvc
-      - oauth2
   application:
-    name: PROCESSOR
+    name: ${pvc.processor.appName}

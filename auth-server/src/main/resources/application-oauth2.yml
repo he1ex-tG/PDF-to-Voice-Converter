@@ -1,5 +1,0 @@
-pvc:
-  authServer:
-    oauth2Client:
-      clientId: auth-client
-      clientSecret: auth-client-password

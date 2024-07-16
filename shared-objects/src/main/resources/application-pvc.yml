@@ -3,10 +3,22 @@ pvc:
     apiVersion: 1
     localStoragePath: E:\PDF_to_Voice_Converter_storage
     localStorageSize: 2
+    appName: DATA-STORAGE
   converterApi:
     apiVersion: 1
+    appName: CONVERTER-API
   processor:
+    oauth2Client:
+      clientId: processor-client
+      clientSecret: processor-client-password
     apiVersion: 1
+    appName: PROCESSOR
   authServer:
+    oauth2Client:
+      clientId: auth-client
+      clientSecret: auth-client-password
     address: http://authserver
     port: 7020
+    appName: AUTH-SERVER
+  userInterface:
+    appName: USER-INTERFACE

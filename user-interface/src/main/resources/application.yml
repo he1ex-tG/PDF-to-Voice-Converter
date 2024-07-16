@@ -12,4 +12,4 @@ spring:
       - pvc
       - oauth2
   application:
-    name: USER-INTERFACE
+    name: ${pvc.userInterface.appName}

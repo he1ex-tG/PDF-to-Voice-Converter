@@ -7,7 +7,7 @@ spring:
       - pvc
       - mongodb
   application:
-    name: DATA-STORAGE
+    name: ${pvc.dataStorage.appName}
   data:
     mongodb:
       auto-index-creation: true

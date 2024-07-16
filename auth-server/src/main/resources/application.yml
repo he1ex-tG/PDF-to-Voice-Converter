@@ -10,6 +10,5 @@ spring:
     include:
       - eureka
       - pvc
-      - oauth2
   application:
-    name: AUTH-SERVER
+    name: ${pvc.authServer.appName}
