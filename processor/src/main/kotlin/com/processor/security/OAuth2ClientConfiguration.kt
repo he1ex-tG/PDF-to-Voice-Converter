@@ -20,6 +20,7 @@ class OAuth2ClientConfiguration {
     lateinit var clientSecret: String
     @Value("\${spring.application.name}")
     lateinit var appName: String
+
     @Value("\${pvc.authServer.address}")
     lateinit var authAddress: String
     @Value("\${pvc.authServer.port}")
@@ -27,7 +28,11 @@ class OAuth2ClientConfiguration {
 
     @Bean
     fun clientRegistrationRepository(): ClientRegistrationRepository {
-        return InMemoryClientRegistrationRepository(pvcUserClientRegistration())
+        val clientRegistrations: MutableList<ClientRegistration> = mutableListOf()
+        clientRegistrations.apply {
+            add(pvcUserClientRegistration())
+        }
+        return InMemoryClientRegistrationRepository(clientRegistrations)
     }
 
     private fun pvcUserClientRegistration(): ClientRegistration {

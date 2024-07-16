@@ -28,10 +28,13 @@ class AuthorizationServerConfiguration {
 
     @Bean
     fun registeredClientRepository(): RegisteredClientRepository {
-        return InMemoryRegisteredClientRepository(
-            getUserClientRegisteredClient(),
-            getAuthClientRegisteredClient()
-        )
+        val registeredClients: MutableList<RegisteredClient> = mutableListOf()
+        registeredClients.apply {
+            add(getUserClientRegisteredClient())
+            add(getAuthClientRegisteredClient())
+            add(getProcessorClientRegisteredClient())
+        }
+        return InMemoryRegisteredClientRepository(registeredClients)
     }
 
     private fun getUserClientRegisteredClient(): RegisteredClient {
@@ -64,6 +67,24 @@ class AuthorizationServerConfiguration {
             .scopes {
                 it.add("auth:auth")
                 it.add("auth:write")
+                it.add(OidcScopes.OPENID)
+            }
+            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+            .build()
+    }
+
+    private fun getProcessorClientRegisteredClient(): RegisteredClient {
+        return RegisteredClient.withId(UUID.randomUUID().toString())
+            .clientId("processor-client")
+            .clientSecret("{noop}processor-client-password")
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+            .redirectUri("http://localhost:7015/login/oauth2/code/auth-client")
+            .postLogoutRedirectUri("http://authserver:7015/")
+            .scopes {
+                it.add("files:read")
+                it.add("files:write")
                 it.add(OidcScopes.OPENID)
             }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())

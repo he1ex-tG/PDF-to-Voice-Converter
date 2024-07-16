@@ -21,13 +21,6 @@ class OAuth2ClientConfiguration {
     @Value("\${pvc.authServer.appName}")
     lateinit var authAppName: String
 
-    @Value("\${pvc.processor.oauth2Client.clientId}")
-    lateinit var processorClientId: String
-    @Value("\${pvc.processor.oauth2Client.clientSecret}")
-    lateinit var processorClientSecret: String
-    @Value("\${pvc.processor.appName}")
-    lateinit var processorAppName: String
-
     @Value("\${pvc.authServer.address}")
     lateinit var authAddress: String
     @Value("\${pvc.authServer.port}")
@@ -38,7 +31,6 @@ class OAuth2ClientConfiguration {
         val clientRegistrations: MutableList<ClientRegistration> = mutableListOf()
         clientRegistrations.apply {
             add(pvcUserClientRegistration())
-            add(pvcFilesClientRegistration())
         }
         return InMemoryClientRegistrationRepository(clientRegistrations)
     }
@@ -54,27 +46,6 @@ class OAuth2ClientConfiguration {
             .scope(
                 "auth:auth",
                 "auth:write",
-                OidcScopes.OPENID
-            )
-            .authorizationUri("$authAddress:$authPort/oauth2/v1/authorize")
-            .tokenUri("$authAddress:$authPort/oauth2/v1/token")
-            .userInfoUri("$authAddress:$authPort/connect/v1/userinfo")
-            .jwkSetUri("$authAddress:$authPort/oauth2/v1/jwks")
-            .userNameAttributeName(IdTokenClaimNames.SUB)
-            .build()
-    }
-
-    private fun pvcFilesClientRegistration(): ClientRegistration {
-        return ClientRegistration.withRegistrationId(processorAppName)
-            .clientId(processorClientId)
-            .clientSecret(processorClientSecret)
-            .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .redirectUri("http://localhost:7015/login/oauth2/code/auth-client")
-            .clientName("PVC auth-server client")
-            .scope(
-                "files:read",
-                "files:write",
                 OidcScopes.OPENID
             )
             .authorizationUri("$authAddress:$authPort/oauth2/v1/authorize")
