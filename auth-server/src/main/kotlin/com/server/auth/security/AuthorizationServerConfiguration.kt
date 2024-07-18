@@ -5,8 +5,10 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
+import com.objects.shared.configuration.PvcConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Import
 import org.springframework.security.oauth2.core.AuthorizationGrantType
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod
 import org.springframework.security.oauth2.core.oidc.OidcScopes
@@ -24,7 +26,10 @@ import java.security.interfaces.RSAPublicKey
 import java.util.*
 
 @Configuration
-class AuthorizationServerConfiguration {
+@Import(PvcConfiguration::class)
+class AuthorizationServerConfiguration(
+    private val pvcConfiguration: PvcConfiguration
+) {
 
     @Bean
     fun registeredClientRepository(): RegisteredClientRepository {
@@ -38,14 +43,15 @@ class AuthorizationServerConfiguration {
     }
 
     private fun getUserClientRegisteredClient(): RegisteredClient {
+        val uiConfig = pvcConfiguration.userInterface
         return RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("user-client")
-            .clientSecret("{noop}user-client-password")
+            .clientId(uiConfig.oAuth2Client.clientId)
+            .clientSecret("{noop}${uiConfig.oAuth2Client.clientSecret}")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://localhost:7010/login/oauth2/code/user-client")
-            .postLogoutRedirectUri("http://localhost:7010/")
+            .redirectUri("${uiConfig.address}:${uiConfig.port}/login/oauth2/code/user-client")
+            .postLogoutRedirectUri("${uiConfig.address}:${uiConfig.port}/")
             .scopes {
                 it.add("user:read")
                 it.add("user:write")
@@ -56,14 +62,15 @@ class AuthorizationServerConfiguration {
     }
 
     private fun getAuthClientRegisteredClient(): RegisteredClient {
+        val authConfig = pvcConfiguration.authServer
         return RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("auth-client")
-            .clientSecret("{noop}auth-client-password")
+            .clientId(authConfig.oAuth2Client.clientId)
+            .clientSecret("{noop}${authConfig.oAuth2Client.clientSecret}")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://localhost:7020/login/oauth2/code/auth-client")
-            .postLogoutRedirectUri("http://authserver:7020/")
+            .redirectUri("${authConfig.address}:${authConfig.port}/login/oauth2/code/auth-client")
+            .postLogoutRedirectUri("${authConfig.address}:${authConfig.port}/")
             .scopes {
                 it.add("auth:auth")
                 it.add("auth:write")
@@ -74,14 +81,15 @@ class AuthorizationServerConfiguration {
     }
 
     private fun getProcessorClientRegisteredClient(): RegisteredClient {
+        val procConfig = pvcConfiguration.processor
         return RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("processor-client")
-            .clientSecret("{noop}processor-client-password")
+            .clientId(procConfig.oAuth2Client.clientId)
+            .clientSecret("{noop}${procConfig.oAuth2Client.clientSecret}")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("http://localhost:7015/login/oauth2/code/auth-client")
-            .postLogoutRedirectUri("http://authserver:7015/")
+            .redirectUri("${procConfig.address}:${procConfig.port}/login/oauth2/code/auth-client")
+            .postLogoutRedirectUri("${procConfig.address}:${procConfig.port}/")
             .scopes {
                 it.add("files:read")
                 it.add("files:write")
