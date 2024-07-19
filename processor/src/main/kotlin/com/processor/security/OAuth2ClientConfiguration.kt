@@ -1,6 +1,7 @@
 package com.processor.security
 
 import com.objects.shared.configuration.PvcConfiguration
+import com.objects.shared.security.PvcScopes
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -40,8 +41,8 @@ class OAuth2ClientConfiguration(
             .redirectUri("${pvcConfiguration.processor.address}:${pvcConfiguration.processor.port}/login/oauth2/code/auth-client")
             .clientName("PVC processor client")
             .scope(
-                "files:read",
-                "files:write",
+                PvcScopes.FILE.READ,
+                PvcScopes.FILE.WRITE,
                 OidcScopes.OPENID
             )
             .authorizationUri("${pvcConfiguration.authServer.address}:${pvcConfiguration.authServer.port}/oauth2/v1/authorize")

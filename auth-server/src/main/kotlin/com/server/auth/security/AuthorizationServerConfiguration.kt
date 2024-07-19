@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet
 import com.nimbusds.jose.jwk.source.JWKSource
 import com.nimbusds.jose.proc.SecurityContext
 import com.objects.shared.configuration.PvcConfiguration
+import com.objects.shared.security.PvcScopes
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
@@ -53,8 +54,8 @@ class AuthorizationServerConfiguration(
             .redirectUri("${uiConfig.address}:${uiConfig.port}/login/oauth2/code/user-client")
             .postLogoutRedirectUri("${uiConfig.address}:${uiConfig.port}/")
             .scopes {
-                it.add("user:read")
-                it.add("user:write")
+                it.add(PvcScopes.USER.READ)
+                it.add(PvcScopes.USER.WRITE)
                 it.add(OidcScopes.OPENID)
             }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
@@ -72,8 +73,8 @@ class AuthorizationServerConfiguration(
             .redirectUri("${authConfig.address}:${authConfig.port}/login/oauth2/code/auth-client")
             .postLogoutRedirectUri("${authConfig.address}:${authConfig.port}/")
             .scopes {
-                it.add("auth:auth")
-                it.add("auth:write")
+                it.add(PvcScopes.AUTH.AUTH)
+                it.add(PvcScopes.AUTH.WRITE)
                 it.add(OidcScopes.OPENID)
             }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
@@ -91,8 +92,8 @@ class AuthorizationServerConfiguration(
             .redirectUri("${procConfig.address}:${procConfig.port}/login/oauth2/code/auth-client")
             .postLogoutRedirectUri("${procConfig.address}:${procConfig.port}/")
             .scopes {
-                it.add("files:read")
-                it.add("files:write")
+                it.add(PvcScopes.FILE.READ)
+                it.add(PvcScopes.FILE.WRITE)
                 it.add(OidcScopes.OPENID)
             }
             .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())

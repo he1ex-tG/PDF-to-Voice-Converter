@@ -1,5 +1,6 @@
 package com.processor.security
 
+import com.objects.shared.security.PvcScopes
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -48,7 +49,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.GET, "^/api/v[0-9]+/files(/[0-9a-z]+)?$"
                     ),
-                    hasAuthority("SCOPE_user:read")
+                    hasAuthority("SCOPE_${PvcScopes.USER.READ}")
                 )
                 /**
                  * Files POST requests. Url like:
@@ -58,7 +59,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.POST, "^/api/v[0-9]+/files$"
                     ),
-                    hasAuthority("SCOPE_user:write")
+                    hasAuthority("SCOPE_${PvcScopes.USER.WRITE}")
                 )
                 authorize(anyRequest, denyAll)
             }

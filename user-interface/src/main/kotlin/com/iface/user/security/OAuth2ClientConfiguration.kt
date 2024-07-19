@@ -1,6 +1,7 @@
 package com.iface.user.security
 
 import com.objects.shared.configuration.PvcConfiguration
+import com.objects.shared.security.PvcScopes
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -40,8 +41,8 @@ class OAuth2ClientConfiguration(
             .redirectUri("${pvcConfiguration.userInterface.address}:${pvcConfiguration.userInterface.port}/login/oauth2/code/user-client")
             .clientName("PVC UI user client")
             .scope(
-                "user:read",
-                "user:write",
+                PvcScopes.USER.READ,
+                PvcScopes.USER.WRITE,
                 OidcScopes.OPENID
             )
             .authorizationUri("${pvcConfiguration.authServer.address}:${pvcConfiguration.authServer.port}/oauth2/v1/authorize")

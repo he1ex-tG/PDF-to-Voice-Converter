@@ -1,5 +1,6 @@
 package com.storage.data.security
 
+import com.objects.shared.security.PvcScopes
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -32,7 +33,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.GET, "^/api/v[0-9]+/users/[0-9a-z]+/files(/[0-9a-z]+)?$"
                     ),
-                    hasAuthority("SCOPE_files:read")
+                    hasAuthority("SCOPE_${PvcScopes.FILE.READ}")
                 )
                 /**
                  * Files POST requests. Url like:
@@ -42,7 +43,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.POST, "^/api/v[0-9]+/users/[0-9a-z]+/files$"
                     ),
-                    hasAuthority("SCOPE_files:write")
+                    hasAuthority("SCOPE_${PvcScopes.FILE.WRITE}")
                 )
                 /**
                  * User auth GET requests. Url like:
@@ -52,7 +53,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.GET, "^/api/v[0-9]+/auth/[0-9A-Za-z_-]+$"
                     ),
-                    hasAuthority("SCOPE_auth:auth")
+                    hasAuthority("SCOPE_${PvcScopes.AUTH.AUTH}")
                 )
                 /**
                  * User POST requests. Url like:
@@ -62,7 +63,7 @@ class SecurityConfig {
                     RegexRequestMatcher.regexMatcher(
                         HttpMethod.POST, "^/api/v[0-9]+/users$"
                     ),
-                    hasAuthority("SCOPE_auth:write")
+                    hasAuthority("SCOPE_${PvcScopes.AUTH.WRITE}")
                 )
                 authorize(anyRequest, denyAll)
             }

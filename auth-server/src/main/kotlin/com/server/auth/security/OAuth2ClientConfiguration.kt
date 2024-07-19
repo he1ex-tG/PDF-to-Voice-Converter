@@ -1,6 +1,7 @@
 package com.server.auth.security
 
 import com.objects.shared.configuration.PvcConfiguration
+import com.objects.shared.security.PvcScopes
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -40,8 +41,8 @@ class OAuth2ClientConfiguration(
             .redirectUri("${pvcConfiguration.authServer.address}:${pvcConfiguration.authServer.port}/login/oauth2/code/auth-client")
             .clientName("PVC auth-server client")
             .scope(
-                "auth:auth",
-                "auth:write",
+                PvcScopes.AUTH.AUTH,
+                PvcScopes.AUTH.WRITE,
                 OidcScopes.OPENID
             )
             .authorizationUri("${pvcConfiguration.authServer.address}:${pvcConfiguration.authServer.port}/oauth2/v1/authorize")
