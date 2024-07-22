@@ -66,7 +66,7 @@
     <body>
         <div class="login-user" th:text="'User: ' + (${username} ?: 'UNKNOWN')">No user</div>
         <div class="main-title">PDF to Voice Converter</div>
-        <form class="main-form" method="post" enctype="multipart/form-data" th:object="${pvcIncomeData}">
+        <form class="main-form" method="post" th:action="@{'/'}" enctype="multipart/form-data" th:object="${pvcIncomeData}">
             <div>
                 <input class="custom-input" type="file" th:field="*{file}" th:value="${file}"/>
                 <div class="error-whitespace" th:if="${not #fields.hasErrors('file')}" th:text="'_'">error whitespace</div>
