@@ -1,6 +1,7 @@
 package com.storage.data.entity
 
 import com.objects.shared.dto.PvcUserDto
+import com.objects.shared.dto.PvcUserInfoDto
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
@@ -19,6 +20,12 @@ class PvcUser(
     constructor(pvcUserDto: PvcUserDto) : this(null, pvcUserDto.username, pvcUserDto.password, pvcUserDto.email)
 
     fun toPvcUserDto(): PvcUserDto = PvcUserDto(username, password, email)
+
+    fun toPvcUserInfoDto(): PvcUserInfoDto = PvcUserInfoDto(
+        id ?: throw NullPointerException("Can't convert PvcUser to PvcUserInfoDto because PvcUser.id is null"),
+        username,
+        password
+    )
 
     override fun toString(): String {
         return "PvcUser instance: id = ${id ?: "null"}, username = $username, " +

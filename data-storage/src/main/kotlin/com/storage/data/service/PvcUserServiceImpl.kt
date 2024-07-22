@@ -1,6 +1,7 @@
 package com.storage.data.service
 
 import com.objects.shared.dto.PvcUserDto
+import com.objects.shared.dto.PvcUserInfoDto
 import com.storage.data.entity.PvcUser
 import com.storage.data.exception.LoadPvcUserException
 import com.storage.data.exception.LoadPvcUserNotFoundException
@@ -15,10 +16,10 @@ class PvcUserServiceImpl(
     private val pvcUserRepository: PvcUserRepository
 ) : PvcUserService {
 
-    override fun authPvcUser(username: String): PvcUserDto {
+    override fun authPvcUser(username: String): PvcUserInfoDto {
         val pvcUser = pvcUserRepository.findByUsername(username)
         try {
-            return pvcUser.get().toPvcUserDto()
+            return pvcUser.get().toPvcUserInfoDto()
         } catch (ex: Throwable) {
             when (ex) {
                 is NoSuchElementException -> {
@@ -35,9 +36,9 @@ class PvcUserServiceImpl(
         }
     }
 
-    override fun savePvcUser(pvcUserDto: PvcUserDto): PvcUserDto {
+    override fun savePvcUser(pvcUserDto: PvcUserDto): PvcUserInfoDto {
         try {
-            return pvcUserRepository.save(PvcUser(pvcUserDto)).toPvcUserDto()
+            return pvcUserRepository.save(PvcUser(pvcUserDto)).toPvcUserInfoDto()
         } catch (ex: Throwable) {
             when (ex) {
                 is DuplicateKeyException -> {
