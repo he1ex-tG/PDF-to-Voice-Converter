@@ -51,8 +51,8 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
         return handleExceptionInternal(ex, problem, headers, status, request)
     }
 
-    @ExceptionHandler(ProcessorGetCurrentUserException::class)
-    fun handlerProcessorGetCurrentUserException(ex: ProcessorGetCurrentUserException, request: WebRequest): ResponseEntity<Any>? {
+    @ExceptionHandler(ProcessorCurrentUserException::class)
+    fun handlerProcessorGetCurrentUserException(ex: ProcessorCurrentUserException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
         val defaultDetail = ex.localizedMessage
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
