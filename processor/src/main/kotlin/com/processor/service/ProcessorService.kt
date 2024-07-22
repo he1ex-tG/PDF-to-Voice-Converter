@@ -7,5 +7,5 @@ interface ProcessorService {
 
     fun getFilesList(): List<PvcFileInfoDto>
     fun convertAndStoreFile(pvcFileDto: PvcFileDto): PvcFileInfoDto
-    fun getFile(id: String): PvcFileDto
+    fun getFile(fileId: String): PvcFileDto
 }

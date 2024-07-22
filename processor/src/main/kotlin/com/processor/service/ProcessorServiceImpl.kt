@@ -4,6 +4,7 @@ import com.objects.shared.dto.PvcFileDto
 import com.objects.shared.dto.PvcFileInfoDto
 import com.processor.feign.ConverterApiClient
 import com.processor.feign.DataStorageClient
+import com.processor.security.CurrentPvcUser
 import org.springframework.stereotype.Service
 
 @Service
@@ -12,19 +13,17 @@ class ProcessorServiceImpl(
     private val dataStorageClient: DataStorageClient
 ) : ProcessorService {
 
-    private val templateUserId = "templateUserId"
-
     override fun getFilesList(): List<PvcFileInfoDto> {
-        return dataStorageClient.downloadPvcFileList(templateUserId)
+        return dataStorageClient.downloadPvcFileList(CurrentPvcUser.id)
     }
 
     override fun convertAndStoreFile(pvcFileDto: PvcFileDto): PvcFileInfoDto {
         val convertedPdf = converterApiClient.convert(pvcFileDto.file)
         val newFilename = (pvcFileDto.filename.substringBeforeLast('.')) + ".mp3"
-        return dataStorageClient.uploadPvcFile(templateUserId, PvcFileDto(newFilename, convertedPdf))
+        return dataStorageClient.uploadPvcFile(CurrentPvcUser.id, PvcFileDto(newFilename, convertedPdf))
     }
 
-    override fun getFile(id: String): PvcFileDto {
-        return dataStorageClient.downloadPvcFile(id, templateUserId)
+    override fun getFile(fileId: String): PvcFileDto {
+        return dataStorageClient.downloadPvcFile(CurrentPvcUser.id, fileId)
     }
 }
