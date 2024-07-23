@@ -32,9 +32,6 @@ class SecurityConfig {
                     MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                 )
             }
-            oauth2ResourceServer {
-                jwt {  }
-            }
             oauth2Client {  }
         }
         return http.build()
