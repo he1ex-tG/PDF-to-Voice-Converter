@@ -36,7 +36,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(ConverterApiException::class)
     fun handlerConverterApiException(ex: ConverterApiException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
-        val defaultDetail = ex.localizedMessage
+        val defaultDetail = if (ex.localizedMessage.isNullOrEmpty()) {
+            "Interaction with Converter Api module terminated without messages"
+        } else {
+            ex.localizedMessage
+        }
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
@@ -45,7 +49,11 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(DataStorageException::class)
     fun handlerDataStorageException(ex: DataStorageException, request: WebRequest): ResponseEntity<Any>? {
         val status = HttpStatus.INTERNAL_SERVER_ERROR
-        val defaultDetail = ex.localizedMessage
+        val defaultDetail = if (ex.localizedMessage.isNullOrEmpty()) {
+            "Interaction with Data Storage module terminated without messages"
+        } else {
+            ex.localizedMessage
+        }
         val problem = createProblemDetail(ex, status, defaultDetail, null, null, request)
         val headers = HttpHeaders()
         return handleExceptionInternal(ex, problem, headers, status, request)
