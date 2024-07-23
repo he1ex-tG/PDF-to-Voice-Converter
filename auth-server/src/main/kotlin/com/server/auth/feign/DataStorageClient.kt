@@ -4,7 +4,7 @@ import com.objects.shared.controller.DataStorageUserController
 import org.springframework.cloud.openfeign.FeignClient
 
 @FeignClient(
-    name = "DATA-STORAGE",
+    name = "\${pvc.dataStorage.appName}",
     path = "/api/v\${pvc.dataStorage.apiVersion}",
     configuration = [DataStorageClientConfiguration::class]
 )

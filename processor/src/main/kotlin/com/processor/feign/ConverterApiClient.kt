@@ -4,7 +4,7 @@ import com.objects.shared.controller.ConverterApiMainController
 import org.springframework.cloud.openfeign.FeignClient
 
 @FeignClient(
-    name = "CONVERTER-API",
+    name = "\${pvc.converterApi.appName}",
     path = "/api/v\${pvc.converterApi.apiVersion}",
     configuration = [ConverterApiClientConfiguration::class]
 )
