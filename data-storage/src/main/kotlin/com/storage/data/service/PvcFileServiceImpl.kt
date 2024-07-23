@@ -37,7 +37,7 @@ class PvcFileServiceImpl(
         val localStorageSize = localStorageSize.toInt()
         val userFiles = pvcFileRepository.findAllByPvcUserId(pvcUserId).sortedByDescending(PvcFile::dateTime)
         for (index in localStorageSize until userFiles.count()) {
-            deletePvcFile(userFiles.elementAt(index).id!!, pvcUserId)
+            deletePvcFile(userFiles.elementAt(index).id!!)
         }
     }
 
@@ -78,12 +78,12 @@ class PvcFileServiceImpl(
             }
     }
 
-    override fun deletePvcFile(pvcUserId: String, pvcFileId: String) {
+    override fun deletePvcFile(pvcFileId: String) {
         try {
             Files.deleteIfExists(filePathBuilder(pvcFileId))
         }
         finally {
-            pvcFileRepository.deleteByIdAndPvcUserId(pvcFileId, pvcUserId)
+            pvcFileRepository.deleteById(pvcFileId)
         }
     }
 }

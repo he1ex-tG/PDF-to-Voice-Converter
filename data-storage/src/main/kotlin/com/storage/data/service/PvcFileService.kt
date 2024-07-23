@@ -12,6 +12,6 @@ interface PvcFileService {
 
     fun getPvcFileList(pvcUserId: String): List<PvcFileInfoDto>
 
-    fun deletePvcFile(pvcUserId: String, pvcFileId: String)
+    fun deletePvcFile(pvcFileId: String)
 
 }
