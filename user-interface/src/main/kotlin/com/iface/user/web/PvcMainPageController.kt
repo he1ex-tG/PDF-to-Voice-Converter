@@ -29,7 +29,7 @@ class PvcMainPageController(
 
     @ModelAttribute(name = "fileList")
     fun listUserFiles(): List<PvcFileInfoDto> {
-        return listOf() // pvcMainPageService.getFilesList().sortedByDescending(PvcFileInfoDto::id)
+        return pvcMainPageService.getFilesList().sortedByDescending(PvcFileInfoDto::id)
     }
 
     @GetMapping
@@ -70,7 +70,6 @@ class PvcMainPageController(
             PvcFileDto(multipartFile.originalFilename ?: "filename", multipartFile.bytes)
         )
         sessionStatus.setComplete()
-        // TODO Add redirect attribute with new file name
         return "redirect:/"
     }
 }
