@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>PDF to Voice Converter</title>
+        <style>
+            body {
+                background-color: lightgreen;
+                color: white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .login-user {
+                font-size: 24px;
+                text-align: right;
+            }
+            .back-link {
+                color: white;
+                text-decoration: none;
+            }
+            .main-title {
+                font-size: 96px;
+            }
+            .main-form {
+                font-size: 48px;
+            }
+            .custom-submit {
+                font-size: 48px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                margin: 50px 0px 0px 0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-user">
+            <span th:text="'User: ' + ${#authentication.principal.name}"></span>
+            <span th:text="'|'"></span>
+            <a class="back-link" th:href="@{/}" th:text="'Main'"></a>
+        </div>
+        <div class="main-title">PDF to Voice Converter</div>
+        <form class="main-form" method="post" th:action="@{'/user/logout'}">
+            <div>
+                <button class="custom-submit" type="submit">Logout</button>
+            </div>
+        </form>
+    </body>
+</html>
