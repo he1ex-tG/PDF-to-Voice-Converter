@@ -15,10 +15,8 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher
 @EnableWebSecurity
 class SecurityConfig {
 
-    @Value("\${pvc.authServer.address}")
-    lateinit var authAddress: String
-    @Value("\${pvc.authServer.port}")
-    lateinit var authPort: String
+    @Value("\${pvc.authServer.uri}")
+    lateinit var authUri: String
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -69,7 +67,7 @@ class SecurityConfig {
             }
             oauth2ResourceServer {
                 jwt {
-                    jwkSetUri = "$authAddress:$authPort/oauth2/v1/jwks"
+                    jwkSetUri = "$authUri/oauth2/v1/jwks"
                 }
             }
         }
