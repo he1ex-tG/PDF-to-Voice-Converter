@@ -29,6 +29,7 @@ class SecurityConfig(
                 defaultSuccessUrl("/", true)
             }
             logout {
+                logoutUrl = "/user/logout"
                 logoutSuccessHandler = OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository).apply {
                     setPostLogoutRedirectUri("{baseUrl}")
                 }
