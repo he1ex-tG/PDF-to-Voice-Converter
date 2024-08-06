@@ -29,13 +29,13 @@ class OAuth2ClientConfiguration(
     }
 
     private fun pvcUserClientRegistration(): ClientRegistration {
-        return ClientRegistrations.fromOidcIssuerLocation("${pvcConfiguration.authServer.address}:${pvcConfiguration.authServer.port}")
-            .registrationId(pvcConfiguration.userInterface.appName)
+        return ClientRegistrations.fromOidcIssuerLocation(pvcConfiguration.authServer.uri)
+            .registrationId("${pvcConfiguration.authServer.appName}-client")
             .clientId(pvcConfiguration.userInterface.oAuth2Client.clientId)
             .clientSecret(pvcConfiguration.userInterface.oAuth2Client.clientSecret)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .redirectUri("${pvcConfiguration.userInterface.address}:${pvcConfiguration.userInterface.port}/login/oauth2/code/${pvcConfiguration.userInterface.appName}")
+            .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
             .clientName("PVC UI user client")
             .scope(
                 PvcScopes.USER.READ,
