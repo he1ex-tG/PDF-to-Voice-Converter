@@ -1,5 +1,5 @@
 server:
-  port: 7005
+  port: ${pvc.converterApi.port}
 spring:
   profiles:
     include:

@@ -1,5 +1,5 @@
 server:
-  port: 7015
+  port: ${pvc.processor.port}
 spring:
   profiles:
     include:
