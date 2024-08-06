@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
     <head>
         <meta charset="UTF-8">
         <title>PDF to Voice Converter</title>
@@ -14,6 +17,10 @@
             .login-user {
                 font-size: 24px;
                 text-align: right;
+            }
+            .logout-link {
+                color: white;
+                text-decoration: none;
             }
             .main-title {
                 font-size: 96px;
@@ -64,7 +71,12 @@
         </style>
     </head>
     <body>
-        <div class="login-user" th:text="'User: ' + (${username} ?: 'UNKNOWN')">No user</div>
+    <div class="main-title" th:text="${request}">sss</div>
+        <div class="login-user">
+            <span th:text="'User: ' + ${#authentication.principal.name}"></span>
+            <span th:text="'|'"></span>
+            <a class="logout-link" th:href="@{/user/logout}" th:text="'Logout'"></a>
+        </div>
         <div class="main-title">PDF to Voice Converter</div>
         <form class="main-form" method="post" th:action="@{'/'}" enctype="multipart/form-data" th:object="${pvcIncomeData}">
             <div>
