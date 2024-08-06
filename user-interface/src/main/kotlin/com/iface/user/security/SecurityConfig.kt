@@ -30,7 +30,7 @@ class SecurityConfig(
             }
             logout {
                 logoutSuccessHandler = OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository).apply {
-                    setPostLogoutRedirectUri("{baseUrl")
+                    setPostLogoutRedirectUri("{baseUrl}")
                 }
             }
         }
