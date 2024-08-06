@@ -51,8 +51,8 @@ class AuthorizationServerConfiguration(
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("${uiConfig.address}:${uiConfig.port}/login/oauth2/code/user-client")
-            .postLogoutRedirectUri("${uiConfig.address}:${uiConfig.port}/")
+            .redirectUri("${uiConfig.uri}/login/oauth2/code/${pvcConfiguration.authServer.appName}-client")
+            .postLogoutRedirectUri(uiConfig.uri)
             .scopes {
                 it.add(PvcScopes.USER.READ)
                 it.add(PvcScopes.USER.WRITE)
@@ -70,14 +70,12 @@ class AuthorizationServerConfiguration(
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("${authConfig.address}:${authConfig.port}/login/oauth2/code/auth-client")
-            .postLogoutRedirectUri("${authConfig.address}:${authConfig.port}/")
+            .redirectUri("${authConfig.uri}/login/oauth2/code/${pvcConfiguration.authServer.appName}-client")
             .scopes {
                 it.add(PvcScopes.AUTH.AUTH)
                 it.add(PvcScopes.AUTH.WRITE)
                 it.add(OidcScopes.OPENID)
             }
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build()
     }
 
@@ -89,14 +87,12 @@ class AuthorizationServerConfiguration(
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .redirectUri("${procConfig.address}:${procConfig.port}/login/oauth2/code/auth-client")
-            .postLogoutRedirectUri("${procConfig.address}:${procConfig.port}/")
+            .redirectUri("${procConfig.uri}/login/oauth2/code/${pvcConfiguration.authServer.appName}-client")
             .scopes {
                 it.add(PvcScopes.FILE.READ)
                 it.add(PvcScopes.FILE.WRITE)
                 it.add(OidcScopes.OPENID)
             }
-            .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
             .build()
     }
 
