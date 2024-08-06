@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager
 
 class DataStorageClientConfiguration {
 
-    @Value("\${spring.application.name}")
-    lateinit var appName: String
+    @Value("\${pvc.authServer.appName}")
+    lateinit var authServerAppName: String
 
     @Bean
     fun customErrorDecoder(): ErrorDecoder {
@@ -26,6 +26,6 @@ class DataStorageClientConfiguration {
 
     @Bean
     fun getOAuth2AccessTokenInterceptor(oAuth2AuthorizedClientManager: OAuth2AuthorizedClientManager): OAuth2AccessTokenInterceptor {
-        return OAuth2AccessTokenInterceptor(appName, oAuth2AuthorizedClientManager)
+        return OAuth2AccessTokenInterceptor("${authServerAppName}-client", oAuth2AuthorizedClientManager)
     }
 }
