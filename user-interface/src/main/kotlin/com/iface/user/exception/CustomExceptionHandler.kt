@@ -1,9 +1,11 @@
 package com.iface.user.exception
 
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.context.request.ServletWebRequest
-import org.springframework.web.servlet.ModelAndView
+
 
 @ControllerAdvice
 class CustomExceptionHandler {
@@ -20,13 +22,11 @@ class CustomExceptionHandler {
      * Custom exception handlers
      */
     @ExceptionHandler(ProcessorException::class)
-    fun handlerProcessorException(ex: ProcessorException, request: ServletWebRequest): ModelAndView {
-        val issuerUri = request.request.requestURI
-        return ModelAndView().apply {
-            viewName = "error"
-            addObject("status", ex.status ?: "No status")
-            addObject("message", ex.message ?: "No message")
-            addObject("issuerUri", issuerUri ?: "/")
-        }
+    fun handlerProcessorException(ex: ProcessorException, request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Any>? {
+        response.sendError(
+            ex.status ?: 999,
+            ex.message ?: "No message"
+        )
+        return null
     }
 }
