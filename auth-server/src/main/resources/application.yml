@@ -8,7 +8,6 @@ server:
 spring:
   profiles:
     include:
-      - eureka
       - pvc
   application:
     name: ${pvc.authServer.appName}

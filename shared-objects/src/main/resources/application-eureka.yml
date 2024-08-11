@@ -1,7 +1,0 @@
-eureka:
-  server:
-    defaultHost: localhost
-    defaultPort: 7025
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.server.defaultHost}:${eureka.server.defaultPort}/eureka
