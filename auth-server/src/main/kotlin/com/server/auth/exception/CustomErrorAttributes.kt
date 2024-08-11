@@ -2,9 +2,9 @@ package com.server.auth.exception
 
 import com.objects.shared.exception.PvcServiceException
 import jakarta.servlet.http.HttpSession
-import org.apache.http.HttpHeaders
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
+import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.util.WebUtils

@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient
 
 @FeignClient(
     name = "\${pvc.dataStorage.appName}",
-    path = "/api/v\${pvc.dataStorage.apiVersion}",
+    url = "\${pvc.dataStorage.uri}/api/v\${pvc.dataStorage.apiVersion}",
     configuration = [DataStorageClientConfiguration::class]
 )
 interface DataStorageClient : DataStorageUserController

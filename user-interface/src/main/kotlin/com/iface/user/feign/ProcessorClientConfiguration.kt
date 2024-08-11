@@ -1,6 +1,7 @@
 package com.iface.user.feign
 
 import com.iface.user.exception.ProcessorException
+import feign.Retryer
 import feign.codec.ErrorDecoder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.openfeign.security.OAuth2AccessTokenInterceptor
@@ -16,15 +17,21 @@ class ProcessorClientConfiguration {
     @Bean
     fun customErrorDecoder(): ErrorDecoder {
         return ErrorDecoder { _, response ->
-            if (response.status() == 503) {
-                throw ProcessorException(
-                    HttpStatus.SERVICE_UNAVAILABLE.value(),
-                    "Processor module does not respond to requests"
-                )
-            }
             val problemDetail = response.getProblemDetail()
             throw ProcessorException(problemDetail.status, problemDetail.detail)
         }
+    }
+
+    @Bean
+    fun customRetryer(): Retryer {
+        return CustomRetryer(
+            maxAttempts = 3,
+            backoff = 2000,
+            pvcServiceException = ProcessorException(
+                status = HttpStatus.SERVICE_UNAVAILABLE.value(),
+                message = "Processor module does not respond to requests"
+            )
+        )
     }
 
     @Bean

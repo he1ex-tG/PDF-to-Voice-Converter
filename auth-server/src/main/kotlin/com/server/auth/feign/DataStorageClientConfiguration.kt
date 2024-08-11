@@ -1,6 +1,7 @@
 package com.server.auth.feign
 
 import com.server.auth.exception.DataStorageException
+import feign.Retryer
 import feign.codec.ErrorDecoder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.openfeign.security.OAuth2AccessTokenInterceptor
@@ -18,12 +19,6 @@ class DataStorageClientConfiguration {
     fun customErrorDecoder(): ErrorDecoder {
         return ErrorDecoder { _, response ->
             when (response.status()) {
-                503 -> {
-                    throw DataStorageException(
-                        HttpStatus.SERVICE_UNAVAILABLE.value(),
-                        "Data Storage module does not respond to requests"
-                    )
-                }
                 404 -> {
                     val problemDetail = response.getProblemDetail()
                     throw UsernameNotFoundException(problemDetail.detail)
@@ -34,6 +29,18 @@ class DataStorageClientConfiguration {
                 }
             }
         }
+    }
+
+    @Bean
+    fun customRetryer(): Retryer {
+        return CustomRetryer(
+            maxAttempts = 3,
+            backoff = 2000,
+            pvcServiceException = DataStorageException(
+                status = HttpStatus.SERVICE_UNAVAILABLE.value(),
+                message = "Data Storage module does not respond to requests"
+            )
+        )
     }
 
     @Bean
