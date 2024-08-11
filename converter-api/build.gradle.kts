@@ -25,7 +25,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("net.sf.sociaal:freetts:1.2.2")
     implementation("com.itextpdf:itextpdf:5.0.6")
     implementation("net.sourceforge.lame:lame:3.98.4")
