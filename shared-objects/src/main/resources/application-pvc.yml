@@ -1,8 +1,8 @@
 pvc:
   dataStorage:
     apiVersion: 1
-    localStoragePath: E:\PDF_to_Voice_Converter_storage
-    localStorageSize: 2
+    localStoragePath: D:\Work\PDF_to_Voice_Converter_storage
+    localStorageSize: 5
     uri: http://localhost:${pvc.dataStorage.port}
     port: 7000
     appName: DATA-STORAGE
